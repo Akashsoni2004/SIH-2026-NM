@@ -1,0 +1,14 @@
+{
+  "orig_cost": 0.0401,
+  "rev_cost": 0.0385,
+  "expenditure": 0.0347,
+  "progress": 0.0342,
+  "financial_progress_pct": 0.0468,
+  "progress_gap": 0.0875,
+  "time_elapsed_months": 0.0487,
+  "planned_duration_months": 0.0419,
+  "time_utilization_pct": 0.3062,
+  "progress_velocity": 0.0261,
+  "expenditure_velocity": 0.0306,
+  "delay_slippage": 0.2646
+}

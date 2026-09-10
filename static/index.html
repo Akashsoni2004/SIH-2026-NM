@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Integrated Project Monitoring & Risk Prediction Platform | MoSPI IPMD</title>
+    <meta name="description" content="Centralized AI/ML Monitoring, Delay Prediction, Cost Overrun Estimation & Early Warning System for Central Sector Infrastructure Projects.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="theme-dark">
+    <!-- Top Navigation Bar -->
+    <header class="navbar" id="main-nav">
+        <div class="nav-left">
+            <div class="emblem-wrapper">
+                <div class="emblem-glow"></div>
+                <div class="emblem-circle">
+                    <i data-lucide="shield-alert" class="brand-icon"></i>
+                </div>
+            </div>
+            <div class="brand-titles">
+                <div class="brand-sub">GOVERNMENT OF INDIA • MoSPI / IPMD</div>
+                <h1 class="brand-main">PAIMANA AI <span>Project Risk Engine</span></h1>
+            </div>
+        </div>
+        
+        <div class="nav-center">
+            <div class="dataset-badge">
+                <span class="pulse-dot"></span>
+                <span>4-Month Longitudinal Panel Data (Apr–Jul 2026)</span>
+            </div>
+        </div>
+        
+        <div class="nav-right">
+            <div class="status-pill status-online">
+                <i data-lucide="cpu"></i>
+                <span>ML Pipeline: Active</span>
+            </div>
+            <button class="btn btn-outline" id="btn-open-sim" title="Open What-If Simulator">
+                <i data-lucide="sliders"></i>
+                <span>What-If Simulator</span>
+            </button>
+            <button class="btn btn-primary" id="btn-open-benchmark" title="View Model Comparisons">
+                <i data-lucide="bar-chart-2"></i>
+                <span>ML Benchmarks</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="dashboard-layout">
+        <!-- Anomaly Ticker Banner -->
+        <section class="ticker-container" id="ticker-banner">
+            <div class="ticker-badge">
+                <i data-lucide="alert-triangle"></i>
+                <span>EARLY WARNING</span>
+            </div>
+            <div class="ticker-content" id="ticker-slider">
+                <span class="ticker-item">Loading live risk radar and critical anomalies...</span>
+            </div>
+            <button class="ticker-close" id="btn-view-anomalies" title="View all anomalies">
+                <span>View All 87 Anomalies</span>
+                <i data-lucide="arrow-right"></i>
+            </button>
+        </section>
+
+        <!-- Executive KPI Cards Grid -->
+        <section class="kpi-grid">
+            <div class="kpi-card glass-card" id="kpi-total-projects">
+                <div class="kpi-header">
+                    <span class="kpi-title">Monitored Projects</span>
+                    <div class="kpi-icon-wrap icon-blue">
+                        <i data-lucide="layers"></i>
+                    </div>
+                </div>
+                <div class="kpi-value-row">
+                    <span class="kpi-num" id="stat-total-projects">1,737</span>
+                    <span class="kpi-tag tag-blue">MoSPI 150 Cr+</span>
+                </div>
+                <div class="kpi-footer">
+                    <span class="kpi-detail">Across 15 Ministries & 22 Sectors</span>
+                </div>
+            </div>
+
+            <div class="kpi-card glass-card" id="kpi-portfolio-cost">
+                <div class="kpi-header">
+                    <span class="kpi-title">Portfolio Capital Value</span>
+                    <div class="kpi-icon-wrap icon-purple">
+                        <i data-lucide="indian-rupee"></i>
+                    </div>
+                </div>
+                <div class="kpi-value-row">
+                    <span class="kpi-num" id="stat-rev-cost">₹36.54L Cr</span>
+                    <span class="kpi-tag tag-purple">Revised</span>
+                </div>
+                <div class="kpi-footer">
+                    <span class="kpi-detail text-growth" id="stat-cost-growth">+₹3.38L Cr Escalation</span>
+                </div>
+            </div>
+
+            <div class="kpi-card glass-card kpi-high-risk" id="kpi-high-risk">
+                <div class="kpi-header">
+                    <span class="kpi-title">High-Risk Projects</span>
+                    <div class="kpi-icon-wrap icon-red">
+                        <i data-lucide="alert-octagon"></i>
+                    </div>
+                </div>
+                <div class="kpi-value-row">
+                    <span class="kpi-num text-red" id="stat-high-risk">1,015</span>
+                    <span class="kpi-tag tag-red" id="stat-high-risk-pct">58.4%</span>
+                </div>
+                <div class="kpi-footer">
+                    <span class="kpi-detail">Delay > 12m or Cost Overrun > 20%</span>
+                </div>
+            </div>
+
+            <div class="kpi-card glass-card" id="kpi-delayed-projects">
+                <div class="kpi-header">
+                    <span class="kpi-title">Average Schedule Delay</span>
+                    <div class="kpi-icon-wrap icon-amber">
+                        <i data-lucide="clock"></i>
+                    </div>
+                </div>
+                <div class="kpi-value-row">
+                    <span class="kpi-num text-amber" id="stat-avg-delay">18.6</span>
+                    <span class="kpi-unit">months</span>
+                    <span class="kpi-tag tag-amber" id="stat-delayed-count">840 Delayed</span>
+                </div>
+                <div class="kpi-footer">
+                    <span class="kpi-detail">Target DoC vs Revised Anticipated</span>
+                </div>
+            </div>
+
+            <div class="kpi-card glass-card" id="kpi-progress-gap">
+                <div class="kpi-header">
+                    <span class="kpi-title">Avg Physical Progress</span>
+                    <div class="kpi-icon-wrap icon-emerald">
+                        <i data-lucide="check-circle-2"></i>
+                    </div>
+                </div>
+                <div class="kpi-value-row">
+                    <span class="kpi-num text-emerald" id="stat-avg-progress">63.8%</span>
+                    <span class="kpi-tag tag-emerald">Financial 52.2%</span>
+                </div>
+                <div class="kpi-footer">
+                    <span class="kpi-detail text-muted">Healthy Ground Completion Gap</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts & Analytics Section -->
+        <section class="analytics-row">
+            <!-- Sector Health Breakdown Chart -->
+            <div class="analytics-card glass-card card-large">
+                <div class="card-header-bar">
+                    <div class="card-title-group">
+                        <i data-lucide="layout-grid" class="card-title-icon"></i>
+                        <div>
+                            <h2 class="card-title">Major Sector Infrastructure Expenditure & Delays</h2>
+                            <p class="card-subtitle">Capital expenditure (₹ Cr) vs average delay (months) across top national infrastructure sectors</p>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <span class="badge-subtle">Real MoSPI 2026 Data</span>
+                    </div>
+                </div>
+                <div class="chart-canvas-container">
+                    <canvas id="sectorBarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Risk Distribution & ML Radar -->
+            <div class="analytics-card glass-card card-small">
+                <div class="card-header-bar">
+                    <div class="card-title-group">
+                        <i data-lucide="pie-chart" class="card-title-icon"></i>
+                        <div>
+                            <h2 class="card-title">Portfolio Risk Breakdown</h2>
+                            <p class="card-subtitle">XGBoost 3-tier classification</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="donut-chart-wrapper">
+                    <div class="donut-canvas-container">
+                        <canvas id="riskDoughnutChart"></canvas>
+                        <div class="donut-center-stat">
+                            <span class="donut-center-val" id="donut-total">1,737</span>
+                            <span class="donut-center-lbl">Projects</span>
+                        </div>
+                    </div>
+                    <div class="risk-legend-list">
+                        <div class="risk-legend-item">
+                            <span class="legend-dot dot-red"></span>
+                            <span class="legend-name">High Risk</span>
+                            <span class="legend-val" id="legend-high">1,015 (58%)</span>
+                        </div>
+                        <div class="risk-legend-item">
+                            <span class="legend-dot dot-amber"></span>
+                            <span class="legend-name">Medium Risk</span>
+                            <span class="legend-val" id="legend-med">230 (13%)</span>
+                        </div>
+                        <div class="risk-legend-item">
+                            <span class="legend-dot dot-emerald"></span>
+                            <span class="legend-name">Low Risk / On Track</span>
+                            <span class="legend-val" id="legend-low">492 (28%)</span>
+                        </div>
+                        <div class="risk-legend-item anom-item" id="legend-anom-btn">
+                            <span class="legend-dot dot-purple"></span>
+                            <span class="legend-name">AI Flagged Anomalies</span>
+                            <span class="legend-val" id="legend-anom">87 projects</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Explorer & Live Table -->
+        <section class="table-section glass-card" id="projects-section">
+            <div class="table-header-control">
+                <div class="table-title-wrap">
+                    <div class="table-title-with-badge">
+                        <h2 class="section-title">Central Sector Projects Explorer</h2>
+                        <span class="count-badge" id="table-total-badge">1,737 Projects</span>
+                    </div>
+                    <p class="section-desc">Search, filter, and inspect individual project velocity, risk scores, and AI recommendations</p>
+                </div>
+                
+                <div class="search-and-filters">
+                    <div class="search-box">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" id="filter-search" placeholder="Search by Project Name, Code (e.g. 612786), or Agency..." autocomplete="off">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Controls Toolbar -->
+            <div class="filter-toolbar">
+                <div class="filter-group">
+                    <label for="filter-ministry">Ministry</label>
+                    <select id="filter-ministry" class="select-styled">
+                        <option value="ALL">All Ministries (15)</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="filter-sector">Sector</label>
+                    <select id="filter-sector" class="select-styled">
+                        <option value="ALL">All Sectors (22)</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-state">State / UT</label>
+                    <select id="filter-state" class="select-styled">
+                        <option value="ALL">All States (36)</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-risk">Risk Level</label>
+                    <select id="filter-risk" class="select-styled">
+                        <option value="ALL">All Risk Levels</option>
+                        <option value="HIGH">High Risk</option>
+                        <option value="MEDIUM">Medium Risk</option>
+                        <option value="LOW">Low Risk</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-anomaly">Anomaly Only</label>
+                    <select id="filter-anomaly" class="select-styled">
+                        <option value="ALL">All Projects</option>
+                        <option value="1">Flagged Anomalies Only</option>
+                    </select>
+                </div>
+
+                <div class="filter-actions">
+                    <button class="btn btn-secondary btn-sm" id="btn-reset-filters">
+                        <i data-lucide="rotate-ccw"></i>
+                        <span>Reset</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="project-table" id="projectTable">
+                    <thead>
+                        <tr>
+                            <th class="col-code">Code</th>
+                            <th class="col-name">Project Name & Implementing Agency</th>
+                            <th class="col-sector">Sector / State</th>
+                            <th class="col-cost sortable" data-sort="orig_cost">Approved Cost <i data-lucide="arrow-up-down"></i></th>
+                            <th class="col-cost sortable" data-sort="rev_cost">Revised Cost <i data-lucide="arrow-up-down"></i></th>
+                            <th class="col-prog sortable" data-sort="progress">Physical Prog. <i data-lucide="arrow-up-down"></i></th>
+                            <th class="col-delay sortable" data-sort="delay_months">Delay <i data-lucide="arrow-up-down"></i></th>
+                            <th class="col-risk">AI Risk</th>
+                            <th class="col-actions">Inspect</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projectTableBody">
+                        <tr>
+                            <td colspan="9" class="table-loading">
+                                <div class="spinner"></div>
+                                <span>Loading project intelligence records...</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination Bar -->
+            <div class="pagination-bar">
+                <div class="pagination-info" id="pagination-info">
+                    Showing 1 to 15 of 1,737 projects
+                </div>
+                <div class="pagination-controls">
+                    <button class="btn-page" id="btn-prev-page" disabled>
+                        <i data-lucide="chevron-left"></i> Previous
+                    </button>
+                    <div class="page-numbers" id="page-numbers"></div>
+                    <button class="btn-page" id="btn-next-page">
+                        Next <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Slide-Out Project Deep Dive Drawer -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <aside class="project-drawer" id="project-drawer">
+        <div class="drawer-header">
+            <div class="drawer-header-left">
+                <div class="drawer-badge-row">
+                    <span class="project-code-tag" id="drawer-code">CODE: 612786</span>
+                    <span class="drawer-risk-badge" id="drawer-risk-badge">HIGH RISK</span>
+                    <span class="drawer-anomaly-badge" id="drawer-anomaly-badge" style="display:none;">ANOMALY FLAGGED</span>
+                </div>
+                <h3 class="drawer-title" id="drawer-name">Project Title</h3>
+                <div class="drawer-agency" id="drawer-agency">Airport Authority of India</div>
+            </div>
+            <button class="drawer-close" id="btn-close-drawer">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <div class="drawer-body">
+            <!-- Primary AI Prediction Highlight Cards -->
+            <div class="drawer-ai-hero">
+                <div class="ai-hero-card">
+                    <span class="ai-hero-label">AI Risk Score</span>
+                    <div class="ai-score-wrap">
+                        <span class="ai-score-num" id="drawer-ai-score">87%</span>
+                        <div class="ai-score-bar-bg">
+                            <div class="ai-score-bar-fill" id="drawer-ai-score-bar" style="width: 87%"></div>
+                        </div>
+                    </div>
+                    <span class="ai-hero-sub" id="drawer-ai-level-desc">Critical Intervention Needed</span>
+                </div>
+
+                <div class="ai-hero-card">
+                    <span class="ai-hero-label">Predicted Delay</span>
+                    <div class="ai-metric-row">
+                        <span class="ai-metric-val text-amber" id="drawer-pred-delay">74</span>
+                        <span class="ai-metric-unit">days</span>
+                    </div>
+                    <span class="ai-hero-sub" id="drawer-target-doc-sub">Target: 01/2026 • Revised: 07/2026</span>
+                </div>
+
+                <div class="ai-hero-card">
+                    <span class="ai-hero-label">Predicted Cost Overrun</span>
+                    <div class="ai-metric-row">
+                        <span class="ai-metric-val text-purple" id="drawer-pred-overrun">+8.7%</span>
+                    </div>
+                    <span class="ai-hero-sub" id="drawer-final-cost-sub">Exp. Final: ₹108.7 Cr</span>
+                </div>
+            </div>
+
+            <!-- Longitudinal 4-Month Velocity Tracker (April -> July 2026) -->
+            <div class="drawer-card">
+                <div class="drawer-card-header">
+                    <div class="dch-title">
+                        <i data-lucide="trending-up"></i>
+                        <span>4-Month Longitudinal Velocity Tracker (Apr–Jul 2026)</span>
+                    </div>
+                    <span class="badge-subtle">Monthly Flash Reports</span>
+                </div>
+                <div class="velocity-stats-row">
+                    <div class="vstat">
+                        <span class="vstat-lbl">Progress Velocity</span>
+                        <span class="vstat-val" id="drawer-prog-vel">+5.0%/mo</span>
+                    </div>
+                    <div class="vstat">
+                        <span class="vstat-lbl">Spend Burn Rate</span>
+                        <span class="vstat-val" id="drawer-exp-vel">₹15.8 Cr/mo</span>
+                    </div>
+                    <div class="vstat">
+                        <span class="vstat-lbl">Delay Slippage</span>
+                        <span class="vstat-val" id="drawer-delay-slip">+2 months</span>
+                    </div>
+                </div>
+                <div class="drawer-chart-container">
+                    <canvas id="drawerTrajectoryChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Explainable AI: SHAP-style Risk Driver Factors -->
+            <div class="drawer-card">
+                <div class="drawer-card-header">
+                    <div class="dch-title">
+                        <i data-lucide="sparkles"></i>
+                        <span>Explainable AI: Key Risk Contributors</span>
+                    </div>
+                    <span class="badge-subtle">XGBoost Feature Attribution</span>
+                </div>
+                <div class="factors-list" id="drawer-risk-factors">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Comprehensive Financial & Execution Parameters -->
+            <div class="drawer-card">
+                <div class="drawer-card-header">
+                    <div class="dch-title">
+                        <i data-lucide="clipboard-list"></i>
+                        <span>Project Parameters & Milestones</span>
+                    </div>
+                </div>
+                <div class="details-grid">
+                    <div class="d-item">
+                        <span class="d-lbl">Ministry</span>
+                        <span class="d-val" id="d-ministry">Ministry of Civil Aviation</span>
+                    </div>
+                    <div class="d-item">
+                        <span class="d-lbl">Sector</span>
+                        <span class="d-val" id="d-sector">Aviation</span>
+                    </div>
+                    <div class="d-item">
+                        <span class="d-lbl">Location / State</span>
+                        <span class="d-val" id="d-state">Andhra Pradesh</span>
+                    </div>
+                    <div class="d-item">
+                        <span class="d-lbl">Original Approved Cost</span>
+                        <span class="d-val" id="d-orig-cost">₹265.91 Cr</span>
+                    </div>
+                    <div class="d-item">
+                        <span class="d-lbl">Revised / Anticipated Cost</span>
+                        <span class="d-val" id="d-rev-cost">₹265.91 Cr</span>
+                    </div>
+                    <div class="d-item">
+                        <span class="d-lbl">Cumulative Expenditure</span>
+                        <span class="d-val" id="d-expenditure">₹176.38 Cr</span>
+                    </div>
+                    <div class="d-item">
+                        <span class="d-lbl">Financial Utilization</span>
+                        <span class="d-val" id="d-fin-prog">66.3%</span>
+                    </div>
+                    <div class="d-item">
+                        <span class="d-lbl">Physical Ground Progress</span>
+                        <span class="d-val" id="d-progress">80.0%</span>
+                    </div>
+                    <div class="d-item">
+                        <span class="d-lbl">Approval Date</span>
+                        <span class="d-val" id="d-app-date">03/2023</span>
+                    </div>
+                    <div class="d-item">
+                        <span class="d-lbl">Target Completion (DoC)</span>
+                        <span class="d-val" id="d-target-doc">01/2026</span>
+                    </div>
+                    <div class="d-item">
+                        <span class="d-lbl">Revised Anticipated DoC</span>
+                        <span class="d-val" id="d-rev-doc">09/2026</span>
+                    </div>
+                    <div class="d-item">
+                        <span class="d-lbl">Progress-Spend Gap</span>
+                        <span class="d-val" id="d-gap">-13.7%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prescriptive Action Recommendations -->
+            <div class="drawer-card recommendations-card">
+                <div class="drawer-card-header">
+                    <div class="dch-title">
+                        <i data-lucide="compass"></i>
+                        <span>AI Recommendation Engine: Prescribed Actions</span>
+                    </div>
+                    <span class="badge-subtle">Targeted Mitigation</span>
+                </div>
+                <div class="recommendations-list" id="drawer-recommendations">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- What-If Simulation Modal -->
+    <div class="modal-overlay" id="sim-modal-overlay">
+        <div class="modal-window glass-card">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="icon-bubble icon-blue">
+                        <i data-lucide="sliders"></i>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">Interactive "What-If" Project Simulation Lab</h3>
+                        <p class="modal-subtitle">Simulate budget escalations, progress changes, and timeline shifts to test ML predictions in real time.</p>
+                    </div>
+                </div>
+                <button class="modal-close" id="btn-close-sim"><i data-lucide="x"></i></button>
+            </div>
+
+            <div class="modal-body sim-grid">
+                <!-- Controls Column -->
+                <div class="sim-controls">
+                    <div class="sim-group">
+                        <div class="sim-label-row">
+                            <label for="sim-orig-cost">Original Approved Cost (₹ Cr)</label>
+                            <span class="sim-val" id="val-sim-orig">₹1,000 Cr</span>
+                        </div>
+                        <input type="range" id="sim-orig-cost" min="150" max="25000" step="50" value="1000">
+                    </div>
+
+                    <div class="sim-group">
+                        <div class="sim-label-row">
+                            <label for="sim-rev-cost">Revised Anticipated Cost (₹ Cr)</label>
+                            <span class="sim-val" id="val-sim-rev">₹1,200 Cr</span>
+                        </div>
+                        <input type="range" id="sim-rev-cost" min="150" max="35000" step="50" value="1200">
+                    </div>
+
+                    <div class="sim-group">
+                        <div class="sim-label-row">
+                            <label for="sim-expenditure">Cumulative Expenditure (₹ Cr)</label>
+                            <span class="sim-val" id="val-sim-exp">₹750 Cr</span>
+                        </div>
+                        <input type="range" id="sim-expenditure" min="0" max="30000" step="25" value="750">
+                    </div>
+
+                    <div class="sim-group">
+                        <div class="sim-label-row">
+                            <label for="sim-progress">Physical Ground Progress (%)</label>
+                            <span class="sim-val" id="val-sim-prog">45%</span>
+                        </div>
+                        <input type="range" id="sim-progress" min="0" max="100" step="1" value="45">
+                    </div>
+
+                    <div class="sim-row-2">
+                        <div class="sim-group">
+                            <label for="sim-prog-vel">Progress Velocity (%/mo)</label>
+                            <input type="number" id="sim-prog-vel" class="input-styled" value="0.8" step="0.1" min="0" max="10">
+                        </div>
+                        <div class="sim-group">
+                            <label for="sim-slip">Quarterly Slippage (months)</label>
+                            <input type="number" id="sim-slip" class="input-styled" value="2" step="1" min="0" max="24">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" id="btn-run-simulation">
+                        <i data-lucide="play"></i>
+                        <span>Run AI Risk Assessment</span>
+                    </button>
+                </div>
+
+                <!-- Simulation Output Column -->
+                <div class="sim-results" id="sim-results-panel">
+                    <div class="sim-output-card">
+                        <span class="soc-label">Predicted Risk Level</span>
+                        <div class="soc-risk-row">
+                            <span class="badge-risk badge-high" id="sim-res-risk">HIGH RISK</span>
+                            <span class="soc-score" id="sim-res-score">Risk Score: 84%</span>
+                        </div>
+                    </div>
+
+                    <div class="sim-metric-cards">
+                        <div class="smc">
+                            <span class="smc-title">Predicted Delay</span>
+                            <span class="smc-val text-amber" id="sim-res-delay">68 Days</span>
+                        </div>
+                        <div class="smc">
+                            <span class="smc-title">Predicted Overrun</span>
+                            <span class="smc-val text-purple" id="sim-res-overrun">+14.2%</span>
+                        </div>
+                        <div class="smc">
+                            <span class="smc-title">Anomaly Status</span>
+                            <span class="smc-val text-emerald" id="sim-res-anom">Normal</span>
+                        </div>
+                    </div>
+
+                    <div class="sim-recom-box">
+                        <span class="srb-title"><i data-lucide="lightbulb"></i> Recommended Action:</span>
+                        <p class="srb-text" id="sim-res-action">Review project milestone immediately. Progress-spend gap requires physical milestone verification before subsequent fund disbursement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ML Benchmarks Modal -->
+    <div class="modal-overlay" id="benchmark-modal-overlay">
+        <div class="modal-window glass-card">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="icon-bubble icon-purple">
+                        <i data-lucide="git-compare"></i>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">Machine Learning Model Architecture & Benchmarks</h3>
+                        <p class="modal-subtitle">Experimental validation on 2,052 infrastructure projects comparing multiple baseline models.</p>
+                    </div>
+                </div>
+                <button class="modal-close" id="btn-close-benchmark"><i data-lucide="x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <h4 class="bm-heading">1. Risk Classification Model Evaluation (Low / Medium / High Risk)</h4>
+                <div class="table-responsive mb-4">
+                    <table class="benchmark-table">
+                        <thead>
+                            <tr>
+                                <th>Algorithm</th>
+                                <th>Accuracy</th>
+                                <th>Precision</th>
+                                <th>Recall</th>
+                                <th>F1-Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bm-classification-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 class="bm-heading">2. Schedule Delay Regressor Evaluation (Target: Delay in Months)</h4>
+                <div class="table-responsive mb-4">
+                    <table class="benchmark-table">
+                        <thead>
+                            <tr>
+                                <th>Algorithm</th>
+                                <th>Mean Absolute Error (MAE)</th>
+                                <th>R² Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bm-delay-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bm-highlights-grid">
+                    <div class="bm-highlight-box">
+                        <span class="bmh-title">Why XGBoost Won?</span>
+                        <p class="bmh-text">Tabular government data has non-linear thresholds (e.g. delay >12m, high progress-spend gap). Gradient boosting captures sharp multi-dimensional boundaries better than linear models while avoiding overfitting via L1/L2 regularization.</p>
+                    </div>
+                    <div class="bm-highlight-box">
+                        <span class="bmh-title">Anomaly Detection Method</span>
+                        <p class="bmh-text">Isolation Forest isolates non-conforming projects in sub-dimensional trees based on expenditure burn velocity, progress velocity, and progress gaps without requiring prior anomaly labels.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Entrypoint -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

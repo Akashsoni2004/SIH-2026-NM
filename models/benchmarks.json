@@ -1,0 +1,51 @@
+{
+  "classification": [
+    {
+      "model": "Logistic Regression",
+      "accuracy": 0.842,
+      "precision": 0.8141,
+      "recall": 0.842,
+      "f1": 0.8085
+    },
+    {
+      "model": "Random Forest Classifier",
+      "accuracy": 0.8937,
+      "precision": 0.8889,
+      "recall": 0.8937,
+      "f1": 0.8847
+    },
+    {
+      "model": "XGBoost Classifier (Selected)",
+      "accuracy": 0.9052,
+      "precision": 0.9015,
+      "recall": 0.9052,
+      "f1": 0.9026
+    }
+  ],
+  "delay_regression": [
+    {
+      "model": "Linear Regression",
+      "mae": 9.25,
+      "r2": 0.5119
+    },
+    {
+      "model": "Random Forest Regressor",
+      "mae": 4.47,
+      "r2": 0.6672
+    },
+    {
+      "model": "XGBoost Regressor (Selected)",
+      "mae": 4.28,
+      "r2": 0.6912
+    }
+  ],
+  "cost_regression": [
+    {
+      "model": "XGBoost Regressor (Selected)",
+      "mae": 18.26,
+      "r2": -0.6494
+    }
+  ],
+  "anomalies_detected": 87,
+  "total_projects": 1737
+}
