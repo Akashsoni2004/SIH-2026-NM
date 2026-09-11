@@ -94,7 +94,7 @@ Evaluated across **1,737 infrastructure projects** with stratified train/test va
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/amitkumar12062-bit/SIH-2026-NM.git
+git clone https://github.com/Akashsoni2004/SIH-2026-NM.git
 cd SIH-2026-NM
 ```
 
@@ -103,12 +103,22 @@ cd SIH-2026-NM
 pip install -r requirements.txt
 ```
 
-### 3. Run the Platform
+### 3. Run the Platform Locally
 ```bash
 python main.py
 ```
 
-### 4. Access the Application
+### 4. Run with Docker (Containerized)
+```bash
+# Build the optimized production Docker image
+docker build -t paimana-ai:latest .
+
+# Run container on port 8000 with auto health checks
+docker run -d -p 8000:8000 --name paimana-ai-app paimana-ai:latest
+```
+
+### 5. Access the Application
+- **Local Application**: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 - **Interactive Web Dashboard**: [https://sih-2026-nm.onrender.com](https://sih-2026-nm.onrender.com)
 - **Demo Video**: [PAIMANA AI](https://youtu.be/2nibS6o8aNM?si=LvPRF2nRxw-nn1dc)
 
