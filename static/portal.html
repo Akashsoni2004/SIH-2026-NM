@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAIMANA AI — Integrated Infrastructure Monitoring & Decision-Support Platform</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="portal-body">
+    <!-- App Layout Container -->
+    <div class="portal-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="portal-sidebar" id="portal-sidebar">
+            <div class="sidebar-header">
+                <a href="/dashboard" class="sidebar-brand">
+                    <div class="emblem-circle">
+                        <i data-lucide="shield-alert" class="brand-icon"></i>
+                    </div>
+                    <div class="sidebar-titles">
+                        <span class="sidebar-brand-name">PAIMANA AI</span>
+                        <span class="sidebar-brand-sub">MoSPI / IPMD</span>
+                    </div>
+                </a>
+                <button class="btn-sidebar-toggle" id="btn-collapse-sidebar" aria-label="Collapse Sidebar">
+                    <i data-lucide="chevron-left"></i>
+                </button>
+            </div>
+
+            <!-- Role Badge in Sidebar -->
+            <div class="sidebar-role-card">
+                <div class="role-badge-row">
+                    <span class="role-pill" id="sidebar-user-role">POLICYMAKER</span>
+                    <span class="scope-pill" id="sidebar-user-scope">National</span>
+                </div>
+                <div class="sidebar-user-name" id="sidebar-user-name">Loading Officer...</div>
+                <div class="sidebar-user-dept" id="sidebar-user-org">Central Division</div>
+            </div>
+
+            <!-- Dynamic Navigation Links -->
+            <nav class="sidebar-menu" id="sidebar-menu">
+                <!-- Links injected via JS according to user role -->
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="javascript:void(0)" class="sidebar-link" onclick="Portal.showView('profile')">
+                    <i data-lucide="user"></i>
+                    <span>Profile & Account</span>
+                </a>
+                <a href="javascript:void(0)" class="sidebar-link link-logout" onclick="Auth.logout()">
+                    <i data-lucide="log-out"></i>
+                    <span>Sign Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="portal-main-wrap">
+            <!-- Top Navbar -->
+            <header class="portal-topbar">
+                <div class="topbar-left">
+                    <button class="btn-mobile-menu" id="btn-mobile-menu" aria-label="Toggle Menu">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <div class="topbar-breadcrumb">
+                        <span class="bc-root">Government Portal</span>
+                        <i data-lucide="chevron-right" class="bc-sep"></i>
+                        <span class="bc-current" id="topbar-title">Dashboard</span>
+                    </div>
+                </div>
+
+                <div class="topbar-center">
+                    <div class="data-freshness-chip">
+                        <span class="pulse-dot"></span>
+                        <span>Longitudinal Panel: Apr–Jul 2026</span>
+                        <span class="divider-dot">•</span>
+                        <span id="data-updated-time">Data Cycle: Active</span>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <!-- Notifications Button -->
+                    <button class="topbar-icon-btn" id="btn-alerts-top" onclick="Portal.showView('alerts')" title="View Early Warning Alerts">
+                        <i data-lucide="bell"></i>
+                        <span class="alert-badge" id="top-alert-count">...</span>
+                    </button>
+
+                    <!-- What-If Simulator Quick Button -->
+                    <button class="btn btn-outline btn-sm topbar-sim-btn" onclick="Portal.openGlobalSimModal()" title="Run What-If Scenario Simulation">
+                        <i data-lucide="sliders"></i>
+                        <span>What-If Simulator</span>
+                    </button>
+
+                    <!-- ML Benchmarks Quick Button -->
+                    <button class="btn btn-outline btn-sm" onclick="Portal.openBenchmarkModal()" title="Inspect ML Engine Benchmarks">
+                        <i data-lucide="bar-chart-2"></i>
+                        <span>ML Benchmarks</span>
+                    </button>
+
+                    <!-- User Profile Dropdown -->
+                    <div class="user-profile-menu">
+                        <div class="user-avatar" id="top-user-avatar">GO</div>
+                        <div class="user-info-text">
+                            <span class="user-name" id="top-user-name">Authorized Official</span>
+                            <span class="user-org" id="top-user-org">MoSPI IPMD</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dynamic Views Container -->
+            <main class="portal-content" id="portal-content">
+                <!-- Toast Notification Container -->
+                <div id="toast-container" class="toast-container"></div>
+
+                <!-- 1. DASHBOARD VIEW -->
+                <section class="portal-view" id="view-dashboard">
+                    <!-- Dynamic Role Dashboard Banner -->
+                    <div class="role-dashboard-banner" id="dashboard-hero-banner">
+                        <div class="banner-text">
+                            <h2 id="dash-greeting">National Infrastructure Risk Radar</h2>
+                            <p id="dash-sub">Longitudinal multi-model surveillance across Central Sector Projects costing ₹150 Crore & above.</p>
+                        </div>
+                        <div class="banner-scope-badge" id="dash-scope-tag">
+                            <i data-lucide="shield-check"></i>
+                            <span>National Portfolio Scope</span>
+                        </div>
+                    </div>
+
+                    <!-- KPI Metric Cards Grid -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card glass-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Monitored Projects</span>
+                                <div class="kpi-icon-wrap icon-blue"><i data-lucide="layers"></i></div>
+                            </div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-num" id="stat-total-projects">-</span>
+                                <span class="kpi-tag tag-blue">MoSPI Central</span>
+                            </div>
+                            <div class="kpi-footer">
+                                <span class="kpi-detail" id="stat-scope-desc">Total Active Registry</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card glass-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Sanctioned Capital Value</span>
+                                <div class="kpi-icon-wrap icon-purple"><i data-lucide="indian-rupee"></i></div>
+                            </div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-num" id="stat-total-cost">-</span>
+                                <span class="kpi-tag tag-purple">Revised Outlay</span>
+                            </div>
+                            <div class="kpi-footer">
+                                <span class="kpi-detail">Original: <strong id="stat-orig-cost">-</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card glass-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">High-Risk Projects</span>
+                                <div class="kpi-icon-wrap icon-red"><i data-lucide="alert-octagon"></i></div>
+                            </div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-num text-danger" id="stat-high-risk">-</span>
+                                <span class="kpi-tag tag-red">XGBoost 90.5%</span>
+                            </div>
+                            <div class="kpi-footer">
+                                <span class="kpi-detail">Medium: <strong id="stat-med-risk">-</strong> • Low: <strong id="stat-low-risk">-</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card glass-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Projects Facing Delay</span>
+                                <div class="kpi-icon-wrap icon-amber"><i data-lucide="clock"></i></div>
+                            </div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-num text-warning" id="stat-delayed">-</span>
+                                <span class="kpi-tag tag-amber">Avg <span id="stat-avg-delay">-</span> mo</span>
+                            </div>
+                            <div class="kpi-footer">
+                                <span class="kpi-detail">Cost Overrun Projects: <strong id="stat-overrun">-</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Operational Triage / Projects Requiring Immediate Attention (Section 28) -->
+                    <div class="dashboard-section-block">
+                        <div class="section-title-row">
+                            <div class="st-left">
+                                <h3><i data-lucide="alert-triangle" class="text-danger"></i> Projects Requiring Immediate Attention</h3>
+                                <p>Prioritized by AI risk classification, schedule slippage velocity, and financial discrepancy.</p>
+                            </div>
+                            <div class="st-right">
+                                <button class="btn btn-outline btn-sm" onclick="Portal.showView('projects', {risk_level: 'HIGH'})">
+                                    <span>View All High Risk</span>
+                                    <i data-lucide="arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-card glass-card">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Project Name</th>
+                                            <th>Implementing Agency</th>
+                                            <th>Sector</th>
+                                            <th>Risk Level</th>
+                                            <th>Delay Slippage</th>
+                                            <th>Progress Gap</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dash-priority-tbody">
+                                        <tr><td colspan="8" class="text-center py-4">Loading prioritized risk radar...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Macro Charts Grid -->
+                    <div class="charts-grid">
+                        <div class="chart-card glass-card">
+                            <div class="chart-header">
+                                <h4><i data-lucide="pie-chart"></i> Risk Level Distribution</h4>
+                                <span class="chart-sub">XGBoost Stratified Classification</span>
+                            </div>
+                            <div class="chart-body">
+                                <canvas id="chart-risk-pie"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card glass-card">
+                            <div class="chart-header">
+                                <h4><i data-lucide="bar-chart-3"></i> Capital Outlay vs Delays by Sector</h4>
+                                <span class="chart-sub">Top Infrastructure Domains</span>
+                            </div>
+                            <div class="chart-body">
+                                <canvas id="chart-sector-bar"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. PROJECTS LIST VIEW -->
+                <section class="portal-view d-none" id="view-projects">
+                    <div class="page-header">
+                        <div class="ph-left">
+                            <h2>Infrastructure Project Catalog</h2>
+                            <p id="projects-scope-note">Central Infrastructure Projects costing ₹150 Crore and above.</p>
+                        </div>
+                        <div class="ph-right">
+                            <button class="btn btn-outline" id="btn-export-csv" onclick="Portal.exportProjectsCSV()">
+                                <i data-lucide="download"></i>
+                                <span>Export Report (CSV)</span>
+                            </button>
+                            <button class="btn btn-primary d-none" id="btn-admin-add-proj" onclick="Portal.openAddProjectModal()">
+                                <i data-lucide="plus-circle"></i>
+                                <span>Add New Project</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Search and Filters Bar -->
+                    <div class="filter-card glass-card">
+                        <div class="filter-grid">
+                            <div class="form-group search-group">
+                                <label for="proj-search">Search Projects</label>
+                                <div class="input-wrap">
+                                    <i data-lucide="search" class="input-icon"></i>
+                                    <input type="text" id="proj-search" placeholder="Search by Project Name, Code, Agency...">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="filter-sector">Sector</label>
+                                <select id="filter-sector" class="form-select">
+                                    <option value="ALL">All Sectors</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="filter-state">State / Region</label>
+                                <select id="filter-state" class="form-select">
+                                    <option value="ALL">All States</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="filter-agency-wrap">
+                                <label for="filter-agency">Agency</label>
+                                <select id="filter-agency" class="form-select">
+                                    <option value="ALL">All Agencies</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="filter-ministry">Ministry</label>
+                                <select id="filter-ministry" class="form-select">
+                                    <option value="ALL">All Ministries</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="filter-risk">Risk Classification</label>
+                                <select id="filter-risk" class="form-select">
+                                    <option value="ALL">All Risk Levels</option>
+                                    <option value="HIGH">HIGH Risk</option>
+                                    <option value="MEDIUM">MEDIUM Risk</option>
+                                    <option value="LOW">LOW Risk</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="filter-actions-row">
+                            <div class="filter-pill-tags" id="active-filter-tags"></div>
+                            <button class="btn btn-sm btn-outline" id="btn-reset-filters" onclick="Portal.resetProjectFilters()">
+                                <i data-lucide="rotate-ccw"></i>
+                                <span>Reset Filters</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Projects Data Table -->
+                    <div class="table-card glass-card">
+                        <div class="table-header-info">
+                            <span id="projects-count-info">Showing projects...</span>
+                            <div class="sort-controls">
+                                <label for="sort-by-select">Sort By:</label>
+                                <select id="sort-by-select" class="form-select form-select-sm" onchange="Portal.handleSortChange()">
+                                    <option value="orig_cost">Original Cost (₹ Cr)</option>
+                                    <option value="rev_cost">Revised Cost (₹ Cr)</option>
+                                    <option value="progress">Physical Progress (%)</option>
+                                    <option value="delay_months">Delay (Months)</option>
+                                    <option value="cost_overrun_pct">Cost Overrun (%)</option>
+                                    <option value="progress_gap">Progress Gap (%)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Project Details</th>
+                                        <th>Agency</th>
+                                        <th>Sector</th>
+                                        <th>Physical Progress</th>
+                                        <th>Approved / Revised Cost</th>
+                                        <th>Delay Months</th>
+                                        <th>Risk Badge</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="projects-table-body">
+                                    <tr><td colspan="9" class="text-center py-5">Loading project database...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination Controls -->
+                        <div class="pagination-bar">
+                            <div class="pagination-info" id="pagination-info">Page 1 of 1</div>
+                            <div class="pagination-buttons">
+                                <button class="btn btn-sm btn-outline" id="btn-prev-page" onclick="Portal.prevPage()">
+                                    <i data-lucide="chevron-left"></i> Previous
+                                </button>
+                                <button class="btn btn-sm btn-outline" id="btn-next-page" onclick="Portal.nextPage()">
+                                    Next <i data-lucide="chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. PROJECT DEEP-DIVE VIEW -->
+                <section class="portal-view d-none" id="view-project-detail">
+                    <div class="detail-top-nav">
+                        <button class="btn btn-outline btn-sm" onclick="Portal.showView('projects')">
+                            <i data-lucide="arrow-left"></i>
+                            <span>Back to Project Catalog</span>
+                        </button>
+                        <div class="detail-actions">
+                            <button class="btn btn-outline btn-sm" id="btn-open-proj-sim" onclick="Portal.openProjectSim()">
+                                <i data-lucide="sliders"></i>
+                                <span>Simulate "What-If" Scenario</span>
+                            </button>
+                            <button class="btn btn-primary btn-sm" onclick="window.print()">
+                                <i data-lucide="printer"></i>
+                                <span>Print Dossier</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Project Identity Banner -->
+                    <div class="project-identity-card glass-card">
+                        <div class="pic-header">
+                            <div class="pic-code-tag" id="detail-code">#000000</div>
+                            <div class="pic-status-pill" id="detail-status">Status: Ongoing</div>
+                        </div>
+                        <h2 class="pic-title" id="detail-title">Project Name Loading...</h2>
+                        <div class="pic-meta-grid">
+                            <div class="meta-col">
+                                <span class="meta-label">Implementing Agency</span>
+                                <span class="meta-val" id="detail-agency">-</span>
+                            </div>
+                            <div class="meta-col">
+                                <span class="meta-label">Administrative Ministry</span>
+                                <span class="meta-val" id="detail-ministry">-</span>
+                            </div>
+                            <div class="meta-col">
+                                <span class="meta-label">Sector & Domain</span>
+                                <span class="meta-val" id="detail-sector">-</span>
+                            </div>
+                            <div class="meta-col">
+                                <span class="meta-label">State / Location</span>
+                                <span class="meta-val" id="detail-state">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Visualizer Bars Grid (Section 33) -->
+                    <div class="progress-bars-card glass-card">
+                        <h4 class="card-subtitle"><i data-lucide="activity"></i> Execution & Financial Work Progress</h4>
+                        <div class="progress-grid-cols">
+                            <div class="prog-col">
+                                <div class="prog-label-row">
+                                    <span>Physical Ground Progress</span>
+                                    <strong id="detail-phys-prog">0.0%</strong>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-fill fill-blue" id="detail-phys-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <div class="prog-col">
+                                <div class="prog-label-row">
+                                    <span>Financial Fund Utilization</span>
+                                    <strong id="detail-fin-prog">0.0%</strong>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-fill fill-purple" id="detail-fin-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <div class="prog-col">
+                                <div class="prog-label-row">
+                                    <span>Progress Gap (Financial vs Ground)</span>
+                                    <strong id="detail-gap-prog">0.0%</strong>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-fill fill-amber" id="detail-gap-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Risk Panel & AI Predictions Grid (Section 34 & 35) -->
+                    <div class="intelligence-grid">
+                        <!-- Risk Panel -->
+                        <div class="intel-card glass-card risk-panel-card" id="detail-risk-card">
+                            <div class="intel-card-header">
+                                <span class="intel-tag">MULTI-MODEL ML CLASSIFICATION</span>
+                                <h4>Overall Implementation Risk</h4>
+                            </div>
+
+                            <div class="risk-score-display">
+                                <div class="risk-score-circle" id="detail-risk-score-circle">
+                                    <span class="risk-score-num" id="detail-risk-score">--</span>
+                                    <span class="risk-score-max">/100</span>
+                                </div>
+                                <div class="risk-level-badge-box">
+                                    <span class="risk-badge badge-lg" id="detail-risk-level">CALCULATING</span>
+                                    <span class="risk-desc-text" id="detail-risk-desc">Evaluating feature vectors...</span>
+                                </div>
+                            </div>
+
+                            <div class="risk-metrics-subgrid">
+                                <div class="submetric-box">
+                                    <span class="sm-label">Delay Probability</span>
+                                    <span class="sm-val text-warning" id="detail-delay-prob">--%</span>
+                                </div>
+                                <div class="submetric-box">
+                                    <span class="sm-label">Cost Escalation Risk</span>
+                                    <span class="sm-val text-danger" id="detail-cost-risk">--%</span>
+                                </div>
+                                <div class="submetric-box">
+                                    <span class="sm-label">Schedule Deviation</span>
+                                    <span class="sm-val" id="detail-sched-dev">-- mo</span>
+                                </div>
+                            </div>
+
+                            <div class="risk-rationale-box">
+                                <i data-lucide="info"></i>
+                                <span id="detail-risk-rationale">Assessing risk rationale from longitudinal trends...</span>
+                            </div>
+                        </div>
+
+                        <!-- AI Forecast & Predictions -->
+                        <div class="intel-card glass-card forecast-card">
+                            <div class="intel-card-header">
+                                <span class="intel-tag">PREDICTIVE INTELLIGENCE</span>
+                                <h4>Ahead-of-Time AI Forecast</h4>
+                            </div>
+
+                            <div class="forecast-stats-row">
+                                <div class="forecast-box">
+                                    <span class="fc-label">Predicted Timeline Slippage</span>
+                                    <div class="fc-val text-warning" id="detail-pred-delay">0.0 mo</div>
+                                    <span class="fc-sub" id="detail-pred-delay-days">(~0 calendar days)</span>
+                                </div>
+
+                                <div class="forecast-box">
+                                    <span class="fc-label">Projected Final Cost</span>
+                                    <div class="fc-val text-purple" id="detail-pred-cost">₹0.0 Cr</div>
+                                    <span class="fc-sub" id="detail-pred-overrun-pct">(Estimated +0% overrun)</span>
+                                </div>
+                            </div>
+
+                            <!-- Anomaly Alert Flag -->
+                            <div class="anomaly-flag-box d-none" id="detail-anomaly-box">
+                                <i data-lucide="alert-triangle"></i>
+                                <div>
+                                    <strong>Critical Work / Financial Anomaly Detected</strong>
+                                    <p id="detail-anomaly-desc">Expenditure velocity drastically outpaces physical milestone completion.</p>
+                                </div>
+                            </div>
+
+                            <!-- Longitudinal History Chart -->
+                            <div class="history-chart-wrap">
+                                <span class="history-chart-title">4-Month Progress Trajectory (Apr–Jul 2026)</span>
+                                <div class="history-chart-canvas">
+                                    <canvas id="chart-project-history"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Explainable AI (XAI) & Prescriptive Recommendations Grid (Section 36 & 37) -->
+                    <div class="xai-recs-grid">
+                        <!-- Explainable AI Drivers -->
+                        <div class="intel-card glass-card">
+                            <div class="intel-card-header">
+                                <span class="intel-tag">EXPLAINABLE AI (XAI)</span>
+                                <h4>Key Risk Drivers (SHAP Attribution)</h4>
+                            </div>
+                            <p class="xai-subtitle">Why is this project classified under this risk profile?</p>
+
+                            <div class="xai-factors-list" id="detail-xai-factors">
+                                <!-- Injected via JS -->
+                            </div>
+                        </div>
+
+                        <!-- AI Prescriptive Recommendations -->
+                        <div class="intel-card glass-card">
+                            <div class="intel-card-header">
+                                <span class="intel-tag">DECISION-SUPPORT ENGINE</span>
+                                <h4>Prescriptive AI Recommendations</h4>
+                            </div>
+                            <p class="xai-subtitle">Advisory interventions suggested for authorized officials:</p>
+
+                            <div class="recs-list" id="detail-recs-list">
+                                <!-- Injected via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. EARLY WARNING SYSTEM / ALERTS VIEW -->
+                <section class="portal-view d-none" id="view-alerts">
+                    <div class="page-header">
+                        <div class="ph-left">
+                            <h2>Early Warning & Risk Alert Radar</h2>
+                            <p>Automated anomaly triggers, milestone slippage alerts, and expenditure red-flags.</p>
+                        </div>
+                        <div class="ph-right">
+                            <div class="filter-inline">
+                                <select id="alert-filter-cat" class="form-select form-select-sm" onchange="Portal.loadAlerts()">
+                                    <option value="ALL">All Alert Categories</option>
+                                    <option value="ANOMALY">Anomalies</option>
+                                    <option value="COST_AND_DELAY">Cost & Delay Dual Risk</option>
+                                    <option value="DELAY_RISK">Delay Slippage</option>
+                                    <option value="COST_RISK">Cost Overrun</option>
+                                    <option value="HIGH_RISK">High Risk Milestones</option>
+                                </select>
+                                <select id="alert-filter-prio" class="form-select form-select-sm" onchange="Portal.loadAlerts()">
+                                    <option value="ALL">All Priorities</option>
+                                    <option value="CRITICAL">Critical Priority</option>
+                                    <option value="HIGH">High Priority</option>
+                                    <option value="MEDIUM">Medium Priority</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alerts-stream-grid" id="alerts-stream-grid">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </section>
+
+                <!-- 5. ANALYTICS VIEW -->
+                <section class="portal-view d-none" id="view-analytics">
+                    <div class="page-header">
+                        <div class="ph-left">
+                            <h2>National Infrastructure Cross-Analytics</h2>
+                            <p>Comparative intelligence across Sectors, Administrative Ministries, States, and Agencies.</p>
+                        </div>
+                    </div>
+
+                    <div class="analytics-tabs-row">
+                        <button class="tab-btn active" onclick="Portal.setAnalyticsTab('sectors', this)">Sectors</button>
+                        <button class="tab-btn" onclick="Portal.setAnalyticsTab('ministries', this)">Ministries</button>
+                        <button class="tab-btn" onclick="Portal.setAnalyticsTab('states', this)">States</button>
+                        <button class="tab-btn" onclick="Portal.setAnalyticsTab('agencies', this)">Implementing Agencies</button>
+                    </div>
+
+                    <!-- Analytics Chart -->
+                    <div class="chart-card glass-card mt-3" style="height:260px;padding:16px 20px 12px;">
+                        <canvas id="chart-analytics-bar"></canvas>
+                    </div>
+
+                    <div class="table-card glass-card mt-3">
+                        <div class="table-responsive">
+                            <table class="data-table" id="analytics-table">
+                                <thead id="analytics-thead"></thead>
+                                <tbody id="analytics-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. ADMIN PORTAL COCKPIT (Only visible to ADMIN role) -->
+                <section class="portal-view d-none" id="view-admin-dashboard">
+                    <div class="page-header">
+                        <div class="ph-left">
+                            <h2>System Administration Console</h2>
+                            <p>Global platform governance, user authorizations, agency directory, and security audit logs.</p>
+                        </div>
+                    </div>
+
+                    <!-- Admin Sub-navigation -->
+                    <div class="admin-nav-tabs">
+                        <button class="admin-tab active" onclick="Portal.setAdminSubView('users')"><i data-lucide="users"></i> User Accounts</button>
+                        <button class="admin-tab" onclick="Portal.setAdminSubView('agencies')"><i data-lucide="building"></i> Agencies Directory</button>
+                        <button class="admin-tab" onclick="Portal.setAdminSubView('audit-logs')"><i data-lucide="clipboard-list"></i> Security Audit Trail</button>
+                        <button class="admin-tab" onclick="Portal.setAdminSubView('settings')"><i data-lucide="sliders"></i> Risk Threshold Settings</button>
+                    </div>
+
+                    <!-- Admin Users Section -->
+                    <div class="admin-subview" id="admin-sub-users">
+                        <div class="admin-action-bar">
+                            <input type="text" id="admin-user-search" class="form-input" placeholder="Search users by name, email, or role..." oninput="Portal.loadAdminUsers()">
+                            <button class="btn btn-primary btn-sm" onclick="Portal.openCreateUserModal()">
+                                <i data-lucide="user-plus"></i> Create New User
+                            </button>
+                        </div>
+                        <div class="table-card glass-card">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Full Name</th>
+                                            <th>Email / Username</th>
+                                            <th>Role</th>
+                                            <th>Organization</th>
+                                            <th>Status</th>
+                                            <th>Last Login</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-users-tbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Agencies Section -->
+                    <div class="admin-subview d-none" id="admin-sub-agencies">
+                        <div class="table-card glass-card">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Agency Code</th>
+                                            <th>Agency Name</th>
+                                            <th>Ministry</th>
+                                            <th>Type</th>
+                                            <th>Projects Tracked</th>
+                                            <th>Total Outlay (₹ Cr)</th>
+                                            <th>Contact Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-agencies-tbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Audit Logs Section -->
+                    <div class="admin-subview d-none" id="admin-sub-audit-logs">
+                        <div class="admin-action-bar">
+                            <select id="audit-action-filter" class="form-select form-select-sm" onchange="Portal.loadAdminAuditLogs()">
+                                <option value="ALL">All Actions</option>
+                                <option value="LOGIN">LOGIN</option>
+                                <option value="LOGIN_FAILED">LOGIN_FAILED</option>
+                                <option value="VIEW_PROJECT">VIEW_PROJECT</option>
+                                <option value="FORBIDDEN_ATTEMPT">FORBIDDEN_ATTEMPT</option>
+                                <option value="CREATE_USER">CREATE_USER</option>
+                                <option value="UPDATE_SETTINGS">UPDATE_SETTINGS</option>
+                            </select>
+                            <span class="text-muted" id="audit-logs-total">Total recorded events: --</span>
+                        </div>
+                        <div class="table-card glass-card">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Timestamp</th>
+                                            <th>User</th>
+                                            <th>Role</th>
+                                            <th>Action</th>
+                                            <th>Resource</th>
+                                            <th>Status</th>
+                                            <th>IP Address</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-audit-tbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Settings Section -->
+                    <div class="admin-subview d-none" id="admin-sub-settings">
+                        <div class="settings-card glass-card">
+                            <h3><i data-lucide="sliders"></i> Platform Risk Thresholds & Model Parameters</h3>
+                            <form id="form-system-settings" class="settings-form" onsubmit="Portal.saveAdminSettings(event)">
+                                <div class="form-group">
+                                    <label>High Risk Cutoff Threshold (Score 0-100)</label>
+                                    <input type="number" id="setting-high-risk" class="form-input" min="50" max="95">
+                                    <span class="form-help">Projects with composite score exceeding this are assigned HIGH risk.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Schedule Delay Alarm (Months)</label>
+                                    <input type="number" id="setting-delay-alarm" class="form-input" min="1" max="36">
+                                    <span class="form-help">Schedule slippage exceeding this triggers an early warning alert.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cost Overrun Notice (%)</label>
+                                    <input type="number" id="setting-cost-alarm" class="form-input" min="5" max="50">
+                                    <span class="form-help">Capital cost escalation percentage triggering critical notice.</span>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Platform Settings</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7. PROFILE & ACCOUNT VIEW -->
+                <section class="portal-view d-none" id="view-profile">
+                    <div class="page-header">
+                        <div class="ph-left">
+                            <h2>User Profile & Security</h2>
+                            <p>Manage your official credentials, session security, and institutional roles.</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-grid">
+                        <div class="profile-card glass-card">
+                            <div class="profile-header-badge">
+                                <div class="profile-avatar" id="profile-avatar">GO</div>
+                                <div>
+                                    <h3 id="profile-name">Official Name</h3>
+                                    <span class="role-pill" id="profile-role-badge">POLICYMAKER</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-meta-list">
+                                <div class="pml-item">
+                                    <span class="pml-label">Official Email</span>
+                                    <span class="pml-val" id="profile-email">email@paimana.gov.in</span>
+                                </div>
+                                <div class="pml-item">
+                                    <span class="pml-label">Username</span>
+                                    <span class="pml-val" id="profile-username">username</span>
+                                </div>
+                                <div class="pml-item">
+                                    <span class="pml-label">Assigned Organization</span>
+                                    <span class="pml-val" id="profile-org">Ministry of Statistics</span>
+                                </div>
+                                <div class="pml-item">
+                                    <span class="pml-label">Division / Department</span>
+                                    <span class="pml-val" id="profile-dept">IPMD Headquarters</span>
+                                </div>
+                                <div class="pml-item">
+                                    <span class="pml-label">Account Status</span>
+                                    <span class="badge badge-success">ACTIVE & AUDITED</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-card glass-card">
+                            <h3>Change Account Password</h3>
+                            <form id="form-change-pwd" onsubmit="Portal.changePassword(event)" class="mt-3">
+                                <div class="form-group">
+                                    <label for="old-pwd">Current Password</label>
+                                    <input type="password" id="old-pwd" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-pwd">New Password</label>
+                                    <input type="password" id="new-pwd" class="form-input" minlength="6" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 8. ACCESS DENIED (403) VIEW -->
+                <section class="portal-view d-none" id="view-403">
+                    <div class="error-panel glass-card text-center py-5">
+                        <div class="error-icon text-danger"><i data-lucide="shield-x"></i></div>
+                        <h2>403 — Access Denied</h2>
+                        <p class="error-msg">You do not have administrative authorization or cross-agency clearance to access this resource.</p>
+                        <p class="text-muted">This unauthorized access attempt has been recorded in the security audit trail.</p>
+                        <button class="btn btn-primary mt-3" onclick="Portal.showView('dashboard')">
+                            <i data-lucide="home"></i> Return to Authorized Dashboard
+                        </button>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL: WHAT-IF SIMULATION LAB -->
+    <div class="modal-overlay d-none" id="modal-sim">
+        <div class="modal-dialog glass-panel">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i data-lucide="sliders"></i>
+                    <span>Real-Time "What-If" Scenario Simulation Lab</span>
+                </div>
+                <button class="modal-close" onclick="Portal.closeSimModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-desc">Simulate budget reallocations, progress acceleration, or schedule slippage to calculate immediate ML risk scores (&lt;25ms).</p>
+                <div class="sim-grid">
+                    <div class="sim-controls">
+                        <div class="sim-group">
+                            <label>Original Cost (₹ Cr): <strong id="val-sim-orig">1000</strong></label>
+                            <input type="range" id="sim-orig-cost" min="150" max="25000" step="50" value="1000" oninput="Portal.runSimulation()">
+                        </div>
+                        <div class="sim-group">
+                            <label>Revised Budget (₹ Cr): <strong id="val-sim-rev">1200</strong></label>
+                            <input type="range" id="sim-rev-cost" min="150" max="35000" step="50" value="1200" oninput="Portal.runSimulation()">
+                        </div>
+                        <div class="sim-group">
+                            <label>Cumulative Expenditure (₹ Cr): <strong id="val-sim-exp">800</strong></label>
+                            <input type="range" id="sim-exp" min="0" max="30000" step="50" value="800" oninput="Portal.runSimulation()">
+                        </div>
+                        <div class="sim-group">
+                            <label>Ground Physical Progress (%): <strong id="val-sim-prog">45</strong>%</label>
+                            <input type="range" id="sim-prog" min="0" max="100" step="1" value="45" oninput="Portal.runSimulation()">
+                        </div>
+                        <div class="sim-group">
+                            <label>Progress Rate Velocity (% / month): <strong id="val-sim-pv">1.2</strong>%</label>
+                            <input type="range" id="sim-pv" min="0" max="10" step="0.1" value="1.2" oninput="Portal.runSimulation()">
+                        </div>
+                        <div class="sim-group">
+                            <label>Delay Slippage Drift (Months): <strong id="val-sim-slip">4</strong> mo</label>
+                            <input type="range" id="sim-slip" min="0" max="36" step="1" value="4" oninput="Portal.runSimulation()">
+                        </div>
+                    </div>
+
+                    <div class="sim-results glass-card">
+                        <h5>Simulated AI Risk Engine Output</h5>
+                        <div class="sim-risk-badge-box">
+                            <span class="risk-badge" id="sim-res-risk-level">HIGH RISK</span>
+                            <span class="sim-score-num" id="sim-res-risk-score">78 / 100</span>
+                        </div>
+                        <div class="sim-stats-list">
+                            <div class="sim-stat-row">
+                                <span>Delay Forecast:</span>
+                                <strong class="text-warning" id="sim-res-delay">12.4 Months</strong>
+                            </div>
+                            <div class="sim-stat-row">
+                                <span>Projected Final Outlay:</span>
+                                <strong class="text-purple" id="sim-res-cost">₹1,340 Cr</strong>
+                            </div>
+                            <div class="sim-stat-row">
+                                <span>Anomaly Status:</span>
+                                <span id="sim-res-anom" class="badge badge-danger">DIVERGENCE FLAGGED</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ML BENCHMARKS -->
+    <div class="modal-overlay d-none" id="modal-benchmarks">
+        <div class="modal-dialog glass-panel">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i data-lucide="bar-chart-2"></i>
+                    <span>Machine Learning Benchmarks & Model Comparison</span>
+                </div>
+                <button class="modal-close" onclick="Portal.closeBenchmarkModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-desc">Validated on 1,737 infrastructure projects with stratified train/test partitioning.</p>
+                
+                <h5>1. Risk Classification Models</h5>
+                <div class="table-responsive mb-4">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Algorithm</th>
+                                <th>Accuracy</th>
+                                <th>Precision</th>
+                                <th>Recall</th>
+                                <th>F1-Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="benchmarks-clf-tbody"></tbody>
+                    </table>
+                </div>
+
+                <h5>2. Schedule Delay Regression Models</h5>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Algorithm</th>
+                                <th>Mean Absolute Error (MAE)</th>
+                                <th>R² Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="benchmarks-reg-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: CREATE USER (ADMIN ONLY) -->
+    <div class="modal-overlay d-none" id="modal-create-user">
+        <div class="modal-dialog glass-panel modal-sm">
+            <div class="modal-header">
+                <div class="modal-title"><i data-lucide="user-plus"></i> Create Official User Account</div>
+                <button class="modal-close" onclick="Portal.closeCreateUserModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-create-user" onsubmit="Portal.submitCreateUser(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="new-user-fullname" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Official Email</label>
+                        <input type="email" id="new-user-email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="new-user-username" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="new-user-password" class="form-input" minlength="6" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select id="new-user-role" class="form-select" required>
+                            <option value="POLICYMAKER">POLICYMAKER (National Portfolio)</option>
+                            <option value="MONITORING">MONITORING (Operational Triage)</option>
+                            <option value="PLANNING">PLANNING (Macro Capital Analysis)</option>
+                            <option value="AGENCY">AGENCY (Organization Isolated)</option>
+                            <option value="ADMIN">ADMIN (Full Platform Governance)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Assigned Organization</label>
+                        <input type="text" id="new-user-org" class="form-input" placeholder="e.g. National Highways Authority of India [NHAI]" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mt-3">Create User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/portal.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
