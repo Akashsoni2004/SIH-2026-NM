@@ -109,9 +109,8 @@ python main.py
 ```
 
 ### 4. Access the Application
-- **Interactive Web Dashboard**: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-- **FastAPI Interactive Swagger Docs**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-- **ReDoc API Documentation**: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+- **Interactive Web Dashboard**: [https://sih-2026-nm.onrender.com](https://sih-2026-nm.onrender.com)
+- **Demo Video**: [PAIMANA AI](https://youtu.be/2nibS6o8aNM?si=LvPRF2nRxw-nn1dc)
 
 ---
 
