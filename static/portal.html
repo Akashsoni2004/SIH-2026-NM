@@ -15,6 +15,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Master Design System Stylesheet -->
     <link rel="stylesheet" href="/static/css/styles.css?v=2.4.0">
+    <link rel="icon" type="image/png" href="/static/img/paimana-logo.png">
+    <link rel="apple-touch-icon" href="/static/img/paimana-logo.png">
     <!-- Theme Manager -->
     <script src="/static/js/theme.js?v=2.4.0"></script>
 </head>
@@ -26,14 +28,7 @@
             <div class="sidebar-header">
                 <a href="/dashboard" class="sidebar-brand">
                     <div class="emblem-wrapper">
-                        <div class="emblem-circle">
-                            <!-- Indian National Lion Capital / Emblem Icon -->
-                            <svg class="emblem-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                                <path d="M2 17l10 5 10-5"></path>
-                                <path d="M2 12l10 5 10-5"></path>
-                            </svg>
-                        </div>
+                        <img src="/static/img/paimana-logo.png" alt="PAIMANA AI Logo" class="brand-logo-img">
                     </div>
                     <div class="sidebar-titles">
                         <div class="sidebar-brand-name">PAIMANA <span class="ai-chip">AI</span></div>
@@ -548,9 +543,12 @@
                     <!-- Official Government Dossier Print Letterhead (Active during window.print()) -->
                     <div class="dossier-print-header">
                         <div class="dossier-print-header-top">
-                            <div>
-                                <div class="print-emblem-text">GOVERNMENT OF INDIA • MINISTRY OF STATISTICS & PROGRAMME IMPLEMENTATION</div>
-                                <div class="print-dept-text">Infrastructure and Project Monitoring Division (IPMD) • PAIMANA AI Intelligence System</div>
+                            <div style="display:flex; align-items:center; gap:0.85rem;">
+                                <img src="/static/img/paimana-logo.png" alt="PAIMANA AI Logo" style="height: 48px; width: auto; flex-shrink: 0;">
+                                <div>
+                                    <div class="print-emblem-text">GOVERNMENT OF INDIA • MINISTRY OF STATISTICS & PROGRAMME IMPLEMENTATION</div>
+                                    <div class="print-dept-text">Infrastructure and Project Monitoring Division (IPMD) • PAIMANA AI Intelligence System</div>
+                                </div>
                             </div>
                             <div class="print-meta-box">
                                 <div><strong>OFFICIAL INFRASTRUCTURE DOSSIER</strong></div>

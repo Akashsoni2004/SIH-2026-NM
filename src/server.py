@@ -65,6 +65,10 @@ def get_client_ip(request: Request) -> str:
         return forwarded.split(",")[0].strip()
     return request.client.host if request.client else "127.0.0.1"
 
+@app.get("/api/health")
+def health_check():
+    return {"status": "healthy", "service": "PAIMANA AI Infrastructure Risk Platform", "version": "2.4.0"}
+
 # ----------------- AUTHENTICATION MODELS & ENDPOINTS -----------------
 
 class LoginRequest(BaseModel):

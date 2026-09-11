@@ -393,6 +393,62 @@ a:hover {
     fill: currentColor;
 }
 
+/* Official PAIMANA AI Master Emblem / Logo */
+.brand-logo-img {
+    height: 38px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+    transition: transform var(--transition-fast), filter var(--transition-fast);
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.brand-logo-img:hover {
+    transform: scale(1.04);
+    filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.35));
+}
+
+.brand-logo-sm {
+    height: 28px;
+}
+
+.brand-logo-md {
+    height: 38px;
+}
+
+.brand-logo-lg {
+    height: 68px;
+}
+
+.brand-logo-xl {
+    height: 96px;
+}
+
+.hero-brand-logo {
+    animation: floatGentle 4s ease-in-out infinite;
+}
+
+@keyframes floatGentle {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+[data-theme="dark"] .brand-logo-img,
+.theme-dark .brand-logo-img {
+    filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.2)) drop-shadow(0 0 12px rgba(59, 130, 246, 0.35));
+}
+
+[data-theme="dark"] .brand-logo-img:hover,
+.theme-dark .brand-logo-img:hover {
+    filter: drop-shadow(0 4px 14px rgba(255, 255, 255, 0.3)) drop-shadow(0 0 16px rgba(59, 130, 246, 0.5));
+}
+
 .brand-title-wrap {
     display: flex;
     flex-direction: column;
