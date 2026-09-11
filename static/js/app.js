@@ -31,6 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     initDashboard();
     setupEventListeners();
+
+    // Listen for theme change to update charts
+    window.addEventListener("themechanged", () => {
+        if (cachedSectorData) {
+            renderSectorBarChart(cachedSectorData.slice(0, 8));
+        }
+    });
 });
 
 async function initDashboard() {
@@ -271,11 +278,13 @@ async function loadAnomaliesTicker() {
     }
 }
 
+let cachedSectorData = null;
+
 async function loadSectorAnalytics() {
     try {
         const res = await fetch("/api/analytics/sectors");
         const sectors = await res.json();
-
+        cachedSectorData = sectors;
         renderSectorBarChart(sectors.slice(0, 8));
     } catch (err) {
         console.error("Failed to load sector analytics:", err);
@@ -530,6 +539,18 @@ function closeProjectDrawer() {
 
 // ----------------- CHARTS RENDERING -----------------
 
+function getAppThemeColors() {
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+    return {
+        isDark,
+        text: isDark ? "#94a3b8" : "#475569",
+        grid: isDark ? "rgba(255, 255, 255, 0.08)" : "#e2e8f0",
+        tooltipBg: isDark ? "rgba(15, 23, 42, 0.95)" : "#ffffff",
+        tooltipText: isDark ? "#ffffff" : "#0f172a",
+        tooltipBorder: isDark ? "rgba(255, 255, 255, 0.1)" : "#cbd5e1"
+    };
+}
+
 function renderSectorBarChart(sectorData) {
     const ctx = document.getElementById("sectorBarChart")?.getContext("2d");
     if (!ctx) return;
@@ -538,6 +559,7 @@ function renderSectorBarChart(sectorData) {
         state.charts.sectorBar.destroy();
     }
 
+    const theme = getAppThemeColors();
     const labels = sectorData.map(s => s.sector.length > 20 ? s.sector.substring(0, 18) + '...' : s.sector);
     const costs = sectorData.map(s => Math.round(s.total_rev_cost));
     const delays = sectorData.map(s => s.avg_delay);
@@ -579,13 +601,13 @@ function renderSectorBarChart(sectorData) {
             plugins: {
                 legend: {
                     position: 'top',
-                    labels: { color: '#94a3b8', font: { family: 'Inter', size: 12 } }
+                    labels: { color: theme.text, font: { family: 'Inter', size: 12 } }
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(15, 23, 42, 0.95)',
-                    titleColor: '#ffffff',
-                    bodyColor: '#e2e8f0',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    backgroundColor: theme.tooltipBg,
+                    titleColor: theme.tooltipText,
+                    bodyColor: theme.tooltipText,
+                    borderColor: theme.tooltipBorder,
                     borderWidth: 1,
                     padding: 10
                 }
@@ -593,14 +615,14 @@ function renderSectorBarChart(sectorData) {
             scales: {
                 x: {
                     grid: { display: false },
-                    ticks: { color: '#64748b', font: { family: 'Inter', size: 11 } }
+                    ticks: { color: theme.text, font: { family: 'Inter', size: 11 } }
                 },
                 y: {
                     type: 'linear',
                     position: 'left',
-                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                    grid: { color: theme.grid },
                     ticks: {
-                        color: '#64748b',
+                        color: theme.text,
                         callback: val => `₹${(val / 1000).toFixed(0)}k Cr`
                     }
                 },

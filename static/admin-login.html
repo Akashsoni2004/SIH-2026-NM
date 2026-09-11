@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,135 +7,147 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css?v=2.4.0">
+    <!-- Theme Manager -->
+    <script src="/static/js/theme.js?v=2.4.0"></script>
 </head>
-<body class="auth-body admin-auth-body">
-    <div class="auth-wrapper">
-        <div class="auth-card glass-panel admin-auth-card">
-            <div class="auth-header">
-                <div class="admin-security-badge">
-                    <i data-lucide="shield-alert"></i>
-                    <span>RESTRICTED ACCESS • AUDITED ENVIRONMENT</span>
+<body class="auth-body">
+    <div style="position: absolute; top: 1.5rem; right: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+        <button class="topbar-icon-btn theme-toggle-btn" id="admin-theme-toggle" aria-label="Toggle Theme" title="Toggle Light / Dark Mode">
+            <i data-lucide="moon" class="theme-icon"></i>
+        </button>
+        <a href="/" class="btn btn-outline btn-sm">
+            <i data-lucide="arrow-left"></i>
+            <span>Portal Home</span>
+        </a>
+    </div>
+
+    <!-- Auth Card -->
+    <div class="auth-card" style="border-top: 4px solid var(--risk-med);">
+        <div class="auth-header">
+            <div style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.85rem; background: var(--risk-med-bg); border: 1px solid var(--risk-med-border); border-radius: var(--radius-full); font-size: 0.7rem; font-weight: 800; color: var(--risk-med-text); text-transform: uppercase; margin-bottom: 1rem;">
+                <i data-lucide="shield-alert" style="width: 14px; height: 14px;"></i>
+                <span>Restricted Access • Audited Environment</span>
+            </div>
+            <h1 class="auth-title">PAIMANA <span style="color:var(--brand-accent)">AI</span></h1>
+            <p class="auth-sub">Central System Administration & Governance Console</p>
+            <span class="auth-dept">Ministry of Statistics & Programme Implementation • IPMD</span>
+        </div>
+
+        <!-- Login Form -->
+        <form id="admin-login-form" class="auth-form">
+            <div id="auth-alert" class="alert-box d-none" style="padding: 0.75rem; border-radius: var(--radius-md); font-size: 0.82rem; margin-bottom: 0.5rem;"></div>
+
+            <div class="form-group">
+                <label for="username">Administrator Email / ID</label>
+                <div class="input-wrap">
+                    <i data-lucide="shield" class="input-icon"></i>
+                    <input type="text" id="username" name="username" class="form-input" placeholder="e.g. admin@paimana.gov.in" required autocomplete="username">
                 </div>
-                <h1 class="auth-title admin-title">PAIMANA AI</h1>
-                <p class="auth-sub">Central System Administration & Governance Console</p>
-                <span class="auth-dept">Ministry of Statistics & Programme Implementation • IPMD</span>
             </div>
 
-            <!-- Login Form -->
-            <form id="admin-login-form" class="auth-form">
-                <div id="auth-alert" class="alert-box d-none"></div>
-
-                <div class="form-group">
-                    <label for="username">Administrator Email / ID</label>
-                    <div class="input-wrap">
-                        <i data-lucide="shield" class="input-icon"></i>
-                        <input type="text" id="username" name="username" placeholder="e.g. admin@paimana.gov.in" required autocomplete="username">
-                    </div>
+            <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label for="password">Administrator Password</label>
+                    <a href="javascript:void(0)" onclick="fillAdminCreds()" style="font-size: 0.75rem; color: var(--risk-med);">Use Demo Admin Creds</a>
                 </div>
-
-                <div class="form-group">
-                    <div class="label-row">
-                        <label for="password">Administrative Password</label>
-                        <a href="javascript:void(0)" class="forgot-link" onclick="fillAdminCreds()">Use Demo Admin Creds</a>
-                    </div>
-                    <div class="input-wrap">
-                        <i data-lucide="key" class="input-icon"></i>
-                        <input type="password" id="password" name="password" placeholder="Enter secure administrator password" required autocomplete="current-password">
-                        <button type="button" class="btn-toggle-pwd" id="toggle-pwd" aria-label="Toggle Password Visibility">
-                            <i data-lucide="eye" id="eye-icon"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="form-options">
-                    <label class="remember-label">
-                        <input type="checkbox" id="remember-me" checked>
-                        <span>Maintain secure session token</span>
-                    </label>
-                </div>
-
-                <button type="submit" class="btn btn-warning btn-block btn-auth" id="btn-submit">
-                    <i data-lucide="lock"></i>
-                    <span id="btn-text">Authenticate Administrator</span>
-                </button>
-            </form>
-
-            <!-- Pre-configured Admin Demo Quick Fill -->
-            <div class="demo-accounts-card admin-demo-card">
-                <button type="button" class="demo-pill admin-pill" onclick="fillAdminCreds()">
-                    <i data-lucide="shield-check"></i>
-                    <span class="pill-role">LOAD SYSTEM ADMINISTRATOR CREDENTIALS</span>
-                    <span class="pill-desc">Dr. Rajesh Verma • MoSPI IPMD Headquarters</span>
-                </button>
-            </div>
-
-            <!-- Portal Switcher Footer -->
-            <div class="auth-footer">
-                <p>Not a system administrator? <a href="/login" class="user-portal-link">&larr; Return to Government User Portal</a></p>
-                <div class="auth-bottom-links">
-                    <a href="/">← Return to Public Homepage</a>
+                <div class="input-wrap">
+                    <i data-lucide="key" class="input-icon"></i>
+                    <input type="password" id="password" name="password" class="form-input" placeholder="Enter secure password" required autocomplete="current-password">
+                    <button type="button" id="toggle-pwd" style="position: absolute; right: 0.75rem; background: transparent; border: none; color: var(--text-muted); cursor: pointer;">
+                        <i data-lucide="eye" id="eye-icon"></i>
+                    </button>
                 </div>
             </div>
+
+            <button type="submit" class="btn btn-primary btn-block" id="btn-submit" style="background: #1e3a8a; height: 46px; font-size: 0.95rem;">
+                <i data-lucide="lock"></i>
+                <span id="btn-text">Authenticate Administrator</span>
+            </button>
+        </form>
+
+        <!-- Pre-configured Admin Demo Quick Fill -->
+        <div class="demo-pills-card" style="border-color: var(--risk-med-border);">
+            <button type="button" class="demo-pill-btn" onclick="fillAdminCreds()" style="display: flex; align-items: center; justify-content: space-between; padding: 0.65rem 0.85rem;">
+                <div>
+                    <span class="role-pill role-admin" style="display: block; margin-bottom: 2px;">LOAD ADMIN CREDENTIALS</span>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">Dr. Rajesh Verma • MoSPI IPMD</span>
+                </div>
+                <i data-lucide="arrow-right" style="width: 16px; height: 16px; color: var(--risk-med);"></i>
+            </button>
+        </div>
+
+        <div style="margin-top: 1.5rem; text-align: center; font-size: 0.8rem; color: var(--text-muted);">
+            Standard user? <a href="/login" style="font-weight: 700;">Government User Portal &rarr;</a>
         </div>
     </div>
 
-    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/auth.js?v=2.4.0"></script>
     <script>
-        lucide.createIcons();
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+            window.lucide.createIcons();
+        }
 
         function fillAdminCreds() {
             document.getElementById("username").value = "admin@paimana.gov.in";
             document.getElementById("password").value = "Admin@2026";
             const alertBox = document.getElementById("auth-alert");
-            alertBox.className = "alert-box alert-info";
-            alertBox.textContent = "Admin credentials filled. Click 'Authenticate Administrator' to proceed.";
+            alertBox.style.background = "var(--risk-med-bg)";
+            alertBox.style.color = "var(--risk-med-text)";
+            alertBox.style.border = "1px solid var(--risk-med-border)";
+            alertBox.textContent = 'Loaded Administrator: admin@paimana.gov.in. Click Authenticate to enter console.';
             alertBox.classList.remove("d-none");
         }
 
         // Toggle Password
         const toggleBtn = document.getElementById("toggle-pwd");
         const pwdInput = document.getElementById("password");
-        toggleBtn.addEventListener("click", () => {
-            const isPwd = pwdInput.type === "password";
-            pwdInput.type = isPwd ? "text" : "password";
-            toggleBtn.innerHTML = `<i data-lucide="${isPwd ? 'eye-off' : 'eye'}"></i>`;
-            lucide.createIcons();
-        });
+        if (toggleBtn && pwdInput) {
+            toggleBtn.addEventListener("click", () => {
+                const isPwd = pwdInput.type === "password";
+                pwdInput.type = isPwd ? "text" : "password";
+                toggleBtn.innerHTML = `<i data-lucide="${isPwd ? 'eye-off' : 'eye'}"></i>`;
+                lucide.createIcons();
+            });
+        }
 
-        // Form Submit
-        const form = document.getElementById("admin-login-form");
-        const alertBox = document.getElementById("auth-alert");
-        const submitBtn = document.getElementById("btn-submit");
-        const btnText = document.getElementById("btn-text");
-
-        form.addEventListener("submit", async (e) => {
+        // Handle Admin Login Submission
+        document.getElementById("admin-login-form").addEventListener("submit", async (e) => {
             e.preventDefault();
-            alertBox.classList.add("d-none");
-            submitBtn.disabled = true;
-            btnText.textContent = "Verifying Security Clearance...";
+            const btn = document.getElementById("btn-submit");
+            const alertBox = document.getElementById("auth-alert");
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value;
 
-            const u = document.getElementById("username").value.trim();
-            const p = document.getElementById("password").value;
+            btn.disabled = true;
+            btn.innerHTML = `<span>Verifying administrative authorization...</span>`;
+            alertBox.classList.add("d-none");
 
             try {
-                const res = await Auth.login(u, p, "admin");
-                alertBox.className = "alert-box alert-success";
-                alertBox.textContent = `Clearance Granted: ${res.user.full_name}. Entering Administrative Console...`;
+                const data = await Auth.login(username, password, "admin");
+                alertBox.style.background = "var(--risk-low-bg)";
+                alertBox.style.color = "var(--risk-low-text)";
+                alertBox.style.border = "1px solid var(--risk-low-border)";
+                alertBox.textContent = `Administrator session granted: ${data.user.full_name}. Directing to console...`;
                 alertBox.classList.remove("d-none");
-                
+
                 setTimeout(() => {
-                    window.location.href = "/admin/dashboard";
-                }, 700);
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirect = urlParams.get("redirect") || "/admin/dashboard";
+                    window.location.href = redirect;
+                }, 600);
             } catch (err) {
-                alertBox.className = "alert-box alert-danger";
-                alertBox.textContent = err.message || "Administrative authentication failed.";
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="lock"></i><span>Authenticate Administrator</span>`;
+                alertBox.style.background = "var(--risk-high-bg)";
+                alertBox.style.color = "var(--risk-high-text)";
+                alertBox.style.border = "1px solid var(--risk-high-border)";
+                alertBox.textContent = err.message;
                 alertBox.classList.remove("d-none");
-                submitBtn.disabled = false;
-                btnText.textContent = "Authenticate Administrator";
+                lucide.createIcons();
             }
         });
     </script>

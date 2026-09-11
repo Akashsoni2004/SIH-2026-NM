@@ -13,9 +13,11 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css?v=2.4.0">
+    <!-- Theme Manager -->
+    <script src="/static/js/theme.js?v=2.4.0"></script>
 </head>
-<body class="theme-dark">
+<body class="theme-light">
     <!-- Top Navigation Bar -->
     <header class="navbar" id="main-nav">
         <div class="nav-left">
@@ -39,6 +41,11 @@
         </div>
         
         <div class="nav-right">
+            <!-- Theme Toggle Button -->
+            <button class="theme-toggle-btn" id="nav-theme-toggle" aria-label="Toggle Light/Dark Theme" title="Toggle Light/Dark Mode">
+                <i data-lucide="sun" class="theme-icon"></i>
+                <span class="sr-only">Toggle Theme</span>
+            </button>
             <div class="status-pill status-online">
                 <i data-lucide="cpu"></i>
                 <span>ML Pipeline: Active</span>
@@ -672,6 +679,6 @@
     </div>
 
     <!-- Script Entrypoint -->
-    <script src="/static/js/app.js"></script>
+    <script src="/static/js/app.js?v=2.4.0"></script>
 </body>
 </html>

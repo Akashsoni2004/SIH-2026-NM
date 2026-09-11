@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAIMANA AI — Integrated Infrastructure Monitoring & Decision-Support Platform</title>
-    <!-- Google Fonts -->
+    <title>PAIMANA AI — National Infrastructure Intelligence Command Center | MoSPI IPMD</title>
+    <meta name="description" content="AI-Powered Central Infrastructure Project Monitoring, Predictive Risk Intelligence & Early Action Platform.">
+    <!-- Google Fonts: Inter & Outfit & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <!-- Master Design System Stylesheet -->
+    <link rel="stylesheet" href="/static/css/styles.css?v=2.4.0">
+    <!-- Theme Manager -->
+    <script src="/static/js/theme.js?v=2.4.0"></script>
 </head>
 <body class="portal-body">
     <!-- App Layout Container -->
@@ -21,15 +25,22 @@
         <aside class="portal-sidebar" id="portal-sidebar">
             <div class="sidebar-header">
                 <a href="/dashboard" class="sidebar-brand">
-                    <div class="emblem-circle">
-                        <i data-lucide="shield-alert" class="brand-icon"></i>
+                    <div class="emblem-wrapper">
+                        <div class="emblem-circle">
+                            <!-- Indian National Lion Capital / Emblem Icon -->
+                            <svg class="emblem-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                <path d="M2 17l10 5 10-5"></path>
+                                <path d="M2 12l10 5 10-5"></path>
+                            </svg>
+                        </div>
                     </div>
                     <div class="sidebar-titles">
-                        <span class="sidebar-brand-name">PAIMANA AI</span>
-                        <span class="sidebar-brand-sub">MoSPI / IPMD</span>
+                        <div class="sidebar-brand-name">PAIMANA <span class="ai-chip">AI</span></div>
+                        <span class="sidebar-brand-sub">MoSPI • Central Sector</span>
                     </div>
                 </a>
-                <button class="btn-sidebar-toggle" id="btn-collapse-sidebar" aria-label="Collapse Sidebar">
+                <button class="btn-sidebar-toggle" id="btn-collapse-sidebar" aria-label="Collapse Sidebar" title="Toggle Sidebar Width">
                     <i data-lucide="chevron-left"></i>
                 </button>
             </div>
@@ -38,10 +49,10 @@
             <div class="sidebar-role-card">
                 <div class="role-badge-row">
                     <span class="role-pill" id="sidebar-user-role">POLICYMAKER</span>
-                    <span class="scope-pill" id="sidebar-user-scope">National</span>
+                    <span class="scope-pill" id="sidebar-user-scope">National Scope</span>
                 </div>
                 <div class="sidebar-user-name" id="sidebar-user-name">Loading Officer...</div>
-                <div class="sidebar-user-dept" id="sidebar-user-org">Central Division</div>
+                <div class="sidebar-user-dept" id="sidebar-user-org">Central Project Cell</div>
             </div>
 
             <!-- Dynamic Navigation Links -->
@@ -50,11 +61,11 @@
             </nav>
 
             <div class="sidebar-footer">
-                <a href="javascript:void(0)" class="sidebar-link" onclick="Portal.showView('profile')">
+                <a href="javascript:void(0)" class="sidebar-footer-link" onclick="Portal.showView('profile')">
                     <i data-lucide="user"></i>
                     <span>Profile & Account</span>
                 </a>
-                <a href="javascript:void(0)" class="sidebar-link link-logout" onclick="Auth.logout()">
+                <a href="javascript:void(0)" class="sidebar-footer-link link-logout" onclick="Auth.logout()">
                     <i data-lucide="log-out"></i>
                     <span>Sign Out</span>
                 </a>
@@ -66,46 +77,89 @@
             <!-- Top Navbar -->
             <header class="portal-topbar">
                 <div class="topbar-left">
-                    <button class="btn-mobile-menu" id="btn-mobile-menu" aria-label="Toggle Menu">
+                    <button class="btn-mobile-menu" id="btn-mobile-menu" aria-label="Toggle Navigation Menu">
                         <i data-lucide="menu"></i>
                     </button>
                     <div class="topbar-breadcrumb">
                         <span class="bc-root">Government Portal</span>
                         <i data-lucide="chevron-right" class="bc-sep"></i>
-                        <span class="bc-current" id="topbar-title">Dashboard</span>
+                        <span class="bc-current" id="topbar-title">Executive Dashboard</span>
                     </div>
                 </div>
 
+                <!-- Global Command Palette Search Trigger -->
                 <div class="topbar-center">
-                    <div class="data-freshness-chip">
-                        <span class="pulse-dot"></span>
-                        <span>Longitudinal Panel: Apr–Jul 2026</span>
-                        <span class="divider-dot">•</span>
-                        <span id="data-updated-time">Data Cycle: Active</span>
+                    <div class="global-search-trigger" id="topbar-search-trigger" onclick="Portal.openCommandPalette()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();Portal.openCommandPalette();}" role="button" tabindex="0" title="Press Ctrl + K to search anything">
+                        <div class="search-trigger-left">
+                            <i data-lucide="search"></i>
+                            <span>Search projects, agencies, sectors, states...</span>
+                        </div>
+                        <kbd class="kbd-shortcut">Ctrl K</kbd>
                     </div>
                 </div>
 
                 <div class="topbar-right">
-                    <!-- Notifications Button -->
-                    <button class="topbar-icon-btn" id="btn-alerts-top" onclick="Portal.showView('alerts')" title="View Early Warning Alerts">
-                        <i data-lucide="bell"></i>
-                        <span class="alert-badge" id="top-alert-count">...</span>
+                    <!-- Live Data Freshness Badge -->
+                    <div class="data-freshness-chip" title="Live synchronized with MoSPI IPMD dataset">
+                        <span class="pulse-dot"></span>
+                        <span>Data: 11 Sep 2026</span>
+                        <span style="color:var(--border-strong)">•</span>
+                        <span id="data-updated-time">13:31 IST</span>
+                    </div>
+
+                    <!-- Theme Toggle (Light / Dark) -->
+                    <button class="topbar-icon-btn theme-toggle-btn" id="portal-theme-toggle" aria-label="Toggle Theme" title="Toggle Light / Dark Theme">
+                        <i data-lucide="moon" class="theme-icon"></i>
                     </button>
 
-                    <!-- What-If Simulator Quick Button -->
-                    <button class="btn btn-outline btn-sm topbar-sim-btn" onclick="Portal.openGlobalSimModal()" title="Run What-If Scenario Simulation">
+                    <!-- Notifications Dropdown Trigger -->
+                    <div style="position: relative;">
+                        <button class="topbar-icon-btn" id="btn-notifications" onclick="Portal.toggleNotifications()" title="Early Warning Notifications">
+                            <i data-lucide="bell"></i>
+                            <span class="alert-badge" id="top-alert-count">...</span>
+                        </button>
+
+                        <!-- Interactive Notification Center Panel -->
+                        <div class="notifications-dropdown" id="notifications-dropdown">
+                            <div class="notif-header">
+                                <div class="notif-header-title">
+                                    <i data-lucide="bell"></i>
+                                    <span>Early Warning Alerts</span>
+                                </div>
+                                <div class="notif-header-actions">
+                                    <button class="btn-notif-action" onclick="Portal.markAllNotificationsRead()" title="Mark all as read">
+                                        Mark all read
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="notif-tabs">
+                                <button class="notif-tab-btn active" id="notif-tab-all" onclick="Portal.filterNotifications('all', this)">All (<span id="notif-count-all">0</span>)</button>
+                                <button class="notif-tab-btn" id="notif-tab-critical" onclick="Portal.filterNotifications('critical', this)">Critical (<span id="notif-count-critical">0</span>)</button>
+                                <button class="notif-tab-btn" id="notif-tab-anomalies" onclick="Portal.filterNotifications('anomalies', this)">Anomalies (<span id="notif-count-anomalies">0</span>)</button>
+                            </div>
+                            <div class="notif-list" id="notif-list-body">
+                                <div class="notif-empty">
+                                    <i data-lucide="shield-check"></i>
+                                    <p>Loading real-time early warnings...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- What-If Scenario Simulator Quick Button -->
+                    <button class="btn btn-outline btn-sm" onclick="Portal.openGlobalSimModal()" title="Run Real-Time What-If Scenario Simulation">
                         <i data-lucide="sliders"></i>
-                        <span>What-If Simulator</span>
+                        <span>Simulator</span>
                     </button>
 
                     <!-- ML Benchmarks Quick Button -->
-                    <button class="btn btn-outline btn-sm" onclick="Portal.openBenchmarkModal()" title="Inspect ML Engine Benchmarks">
+                    <button class="btn btn-outline btn-sm" onclick="Portal.openBenchmarkModal()" title="Inspect ML Model Benchmarks">
                         <i data-lucide="bar-chart-2"></i>
                         <span>ML Benchmarks</span>
                     </button>
 
-                    <!-- User Profile Dropdown -->
-                    <div class="user-profile-menu">
+                    <!-- Officer Profile Dropdown -->
+                    <div class="user-profile-menu" onclick="Portal.showView('profile')">
                         <div class="user-avatar" id="top-user-avatar">GO</div>
                         <div class="user-info-text">
                             <span class="user-name" id="top-user-name">Authorized Official</span>
@@ -120,13 +174,15 @@
                 <!-- Toast Notification Container -->
                 <div id="toast-container" class="toast-container"></div>
 
-                <!-- 1. DASHBOARD VIEW -->
+                <!-- ==========================================================
+                     1. EXECUTIVE DASHBOARD VIEW
+                     ========================================================== -->
                 <section class="portal-view" id="view-dashboard">
-                    <!-- Dynamic Role Dashboard Banner -->
+                    <!-- Dashboard Hero Radar Header -->
                     <div class="role-dashboard-banner" id="dashboard-hero-banner">
                         <div class="banner-text">
                             <h2 id="dash-greeting">National Infrastructure Risk Radar</h2>
-                            <p id="dash-sub">Longitudinal multi-model surveillance across Central Sector Projects costing ₹150 Crore & above.</p>
+                            <p id="dash-sub">AI-powered longitudinal surveillance across Central Sector Projects costing ₹150 Crore & above.</p>
                         </div>
                         <div class="banner-scope-badge" id="dash-scope-tag">
                             <i data-lucide="shield-check"></i>
@@ -136,21 +192,21 @@
 
                     <!-- KPI Metric Cards Grid -->
                     <div class="kpi-grid">
-                        <div class="kpi-card glass-card">
+                        <div class="kpi-card kpi-blue">
                             <div class="kpi-header">
                                 <span class="kpi-title">Monitored Projects</span>
                                 <div class="kpi-icon-wrap icon-blue"><i data-lucide="layers"></i></div>
                             </div>
                             <div class="kpi-value-row">
                                 <span class="kpi-num" id="stat-total-projects">-</span>
-                                <span class="kpi-tag tag-blue">MoSPI Central</span>
+                                <span class="kpi-tag tag-blue">+8.4% YoY</span>
                             </div>
                             <div class="kpi-footer">
-                                <span class="kpi-detail" id="stat-scope-desc">Total Active Registry</span>
+                                <span id="stat-scope-desc">Active Central Infrastructure</span>
                             </div>
                         </div>
 
-                        <div class="kpi-card glass-card">
+                        <div class="kpi-card kpi-purple">
                             <div class="kpi-header">
                                 <span class="kpi-title">Sanctioned Capital Value</span>
                                 <div class="kpi-icon-wrap icon-purple"><i data-lucide="indian-rupee"></i></div>
@@ -160,11 +216,11 @@
                                 <span class="kpi-tag tag-purple">Revised Outlay</span>
                             </div>
                             <div class="kpi-footer">
-                                <span class="kpi-detail">Original: <strong id="stat-orig-cost">-</strong></span>
+                                <span>Original Approved: <strong id="stat-orig-cost">-</strong></span>
                             </div>
                         </div>
 
-                        <div class="kpi-card glass-card">
+                        <div class="kpi-card kpi-red">
                             <div class="kpi-header">
                                 <span class="kpi-title">High-Risk Projects</span>
                                 <div class="kpi-icon-wrap icon-red"><i data-lucide="alert-octagon"></i></div>
@@ -174,11 +230,11 @@
                                 <span class="kpi-tag tag-red">XGBoost 90.5%</span>
                             </div>
                             <div class="kpi-footer">
-                                <span class="kpi-detail">Medium: <strong id="stat-med-risk">-</strong> • Low: <strong id="stat-low-risk">-</strong></span>
+                                <span>Medium: <strong id="stat-med-risk">-</strong> • Low: <strong id="stat-low-risk">-</strong></span>
                             </div>
                         </div>
 
-                        <div class="kpi-card glass-card">
+                        <div class="kpi-card kpi-amber">
                             <div class="kpi-header">
                                 <span class="kpi-title">Projects Facing Delay</span>
                                 <div class="kpi-icon-wrap icon-amber"><i data-lucide="clock"></i></div>
@@ -188,12 +244,112 @@
                                 <span class="kpi-tag tag-amber">Avg <span id="stat-avg-delay">-</span> mo</span>
                             </div>
                             <div class="kpi-footer">
-                                <span class="kpi-detail">Cost Overrun Projects: <strong id="stat-overrun">-</strong></span>
+                                <span>Cost Overrun Projects: <strong id="stat-overrun">-</strong></span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Operational Triage / Projects Requiring Immediate Attention (Section 28) -->
+                    <!-- Macro Charts Grid: Donut + Line Trend -->
+                    <div class="charts-grid">
+                        <!-- Interactive Risk Donut Chart -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h4><i data-lucide="pie-chart"></i> Risk Distribution Stratification</h4>
+                                <span class="chart-sub">Click segment or card to filter</span>
+                            </div>
+                            <div class="donut-chart-layout">
+                                <div class="donut-canvas-wrap">
+                                    <canvas id="chart-risk-pie"></canvas>
+                                    <div class="donut-center-info" id="donut-center-info">
+                                        <span class="donut-center-tag" id="donut-center-tag">PORTFOLIO</span>
+                                        <span class="donut-center-count" id="donut-center-count">1,737</span>
+                                        <span class="donut-center-label" id="donut-center-label">Total Monitored</span>
+                                    </div>
+                                </div>
+                                <div class="donut-legend-grid">
+                                    <div class="donut-legend-card card-risk-high" onclick="Portal.showView('projects', { risk_level: 'HIGH' })" role="button" tabindex="0" title="Filter High Risk Projects">
+                                        <div class="legend-card-header">
+                                            <span class="legend-indicator dot-high"></span>
+                                            <span class="legend-card-title">High Risk</span>
+                                            <span class="legend-pct-badge badge-high" id="legend-pct-high">58.4%</span>
+                                        </div>
+                                        <div class="legend-card-stat">
+                                            <span class="legend-count-val" id="legend-count-high">1,015</span>
+                                            <span class="legend-sub-text">Critical Alerts</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="donut-legend-card card-risk-med" onclick="Portal.showView('projects', { risk_level: 'MEDIUM' })" role="button" tabindex="0" title="Filter Medium Risk Projects">
+                                        <div class="legend-card-header">
+                                            <span class="legend-indicator dot-med"></span>
+                                            <span class="legend-card-title">Medium</span>
+                                            <span class="legend-pct-badge badge-med" id="legend-pct-med">24.2%</span>
+                                        </div>
+                                        <div class="legend-card-stat">
+                                            <span class="legend-count-val" id="legend-count-med">420</span>
+                                            <span class="legend-sub-text">Watchlist</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="donut-legend-card card-risk-low" onclick="Portal.showView('projects', { risk_level: 'LOW' })" role="button" tabindex="0" title="Filter Low Risk Projects">
+                                        <div class="legend-card-header">
+                                            <span class="legend-indicator dot-low"></span>
+                                            <span class="legend-card-title">Low Risk</span>
+                                            <span class="legend-pct-badge badge-low" id="legend-pct-low">17.4%</span>
+                                        </div>
+                                        <div class="legend-card-stat">
+                                            <span class="legend-count-val" id="legend-count-low">302</span>
+                                            <span class="legend-sub-text">On Track</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Risk & Progress Trend Line Chart -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h4><i data-lucide="trending-up"></i> Project Progress & Risk Trajectory</h4>
+                                <div class="chart-time-pills">
+                                    <button class="chart-pill-btn" onclick="Portal.setTimeRange('1M', this)">1M</button>
+                                    <button class="chart-pill-btn" onclick="Portal.setTimeRange('3M', this)">3M</button>
+                                    <button class="chart-pill-btn active" onclick="Portal.setTimeRange('6M', this)">6M</button>
+                                    <button class="chart-pill-btn" onclick="Portal.setTimeRange('1Y', this)">1Y</button>
+                                </div>
+                            </div>
+                            <div class="chart-body">
+                                <canvas id="chart-risk-trend"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Row: Sector Performance + Interactive India Risk Map -->
+                    <div class="charts-grid">
+                        <!-- Sector Performance Bar Chart -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h4><i data-lucide="bar-chart-3"></i> Capital Outlay & Delays by Sector</h4>
+                                <span class="chart-sub">Top Infrastructure Domains</span>
+                            </div>
+                            <div class="chart-body">
+                                <canvas id="chart-sector-bar"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Interactive India Project Risk Map -->
+                        <div class="map-card">
+                            <div class="chart-header">
+                                <h4><i data-lucide="map-pin"></i> National Project Risk Map (State-wise)</h4>
+                                <span class="chart-sub">Hover state for metrics • Click to filter</span>
+                            </div>
+                            <div class="map-container" id="india-map-container">
+                                <!-- Dynamic Interactive SVG map rendered by JS -->
+                                <div class="map-tooltip" id="map-tooltip"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Operational Triage / Projects Requiring Immediate Attention -->
                     <div class="dashboard-section-block">
                         <div class="section-title-row">
                             <div class="st-left">
@@ -208,7 +364,7 @@
                             </div>
                         </div>
 
-                        <div class="table-card glass-card">
+                        <div class="table-card">
                             <div class="table-responsive">
                                 <table class="data-table">
                                     <thead>
@@ -230,39 +386,18 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Macro Charts Grid -->
-                    <div class="charts-grid">
-                        <div class="chart-card glass-card">
-                            <div class="chart-header">
-                                <h4><i data-lucide="pie-chart"></i> Risk Level Distribution</h4>
-                                <span class="chart-sub">XGBoost Stratified Classification</span>
-                            </div>
-                            <div class="chart-body">
-                                <canvas id="chart-risk-pie"></canvas>
-                            </div>
-                        </div>
-
-                        <div class="chart-card glass-card">
-                            <div class="chart-header">
-                                <h4><i data-lucide="bar-chart-3"></i> Capital Outlay vs Delays by Sector</h4>
-                                <span class="chart-sub">Top Infrastructure Domains</span>
-                            </div>
-                            <div class="chart-body">
-                                <canvas id="chart-sector-bar"></canvas>
-                            </div>
-                        </div>
-                    </div>
                 </section>
 
-                <!-- 2. PROJECTS LIST VIEW -->
+                <!-- ==========================================================
+                     2. PROJECTS CATALOG VIEW
+                     ========================================================== -->
                 <section class="portal-view d-none" id="view-projects">
-                    <div class="page-header">
-                        <div class="ph-left">
+                    <div class="section-title-row">
+                        <div class="st-left">
                             <h2>Infrastructure Project Catalog</h2>
                             <p id="projects-scope-note">Central Infrastructure Projects costing ₹150 Crore and above.</p>
                         </div>
-                        <div class="ph-right">
+                        <div class="st-right" style="display:flex; gap:0.65rem;">
                             <button class="btn btn-outline" id="btn-export-csv" onclick="Portal.exportProjectsCSV()">
                                 <i data-lucide="download"></i>
                                 <span>Export Report (CSV)</span>
@@ -274,14 +409,25 @@
                         </div>
                     </div>
 
+                    <!-- Quick High-Impact Sector Filter Chips -->
+                    <div class="sector-chips-wrapper" id="sector-chips-wrapper">
+                        <div class="sector-chips-header">
+                            <span><i data-lucide="layers" style="width:14px; height:14px; vertical-align:middle;"></i> Quick Filter By Sector</span>
+                            <span id="sector-chips-active-label" style="font-size:0.75rem; color:var(--brand-accent); font-weight:600;"></span>
+                        </div>
+                        <div class="sector-chips-scroll" id="sector-chips-scroll">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+
                     <!-- Search and Filters Bar -->
-                    <div class="filter-card glass-card">
+                    <div class="filter-card">
                         <div class="filter-grid">
                             <div class="form-group search-group">
                                 <label for="proj-search">Search Projects</label>
                                 <div class="input-wrap">
                                     <i data-lucide="search" class="input-icon"></i>
-                                    <input type="text" id="proj-search" placeholder="Search by Project Name, Code, Agency...">
+                                    <input type="text" id="proj-search" class="form-input" placeholder="Search by Project Name, Code, Agency, State...">
                                 </div>
                             </div>
 
@@ -307,14 +453,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="filter-ministry">Ministry</label>
-                                <select id="filter-ministry" class="form-select">
-                                    <option value="ALL">All Ministries</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="filter-risk">Risk Classification</label>
+                                <label for="filter-risk">Risk Level</label>
                                 <select id="filter-risk" class="form-select">
                                     <option value="ALL">All Risk Levels</option>
                                     <option value="HIGH">HIGH Risk</option>
@@ -324,17 +463,16 @@
                             </div>
                         </div>
 
-                        <div class="filter-actions-row">
-                            <div class="filter-pill-tags" id="active-filter-tags"></div>
-                            <button class="btn btn-sm btn-outline" id="btn-reset-filters" onclick="Portal.resetProjectFilters()">
-                                <i data-lucide="rotate-ccw"></i>
-                                <span>Reset Filters</span>
-                            </button>
+                        <!-- Active Filters Tray -->
+                        <div class="active-filters-tray d-none" id="active-filters-tray">
+                            <span class="active-filter-label">Active Filters:</span>
+                            <div id="active-filter-tags" style="display:inline-flex; flex-wrap:wrap; gap:0.4rem; align-items:center;"></div>
+                            <button class="btn-clear-all-filters" onclick="Portal.resetProjectFilters()">Clear All</button>
                         </div>
                     </div>
 
                     <!-- Projects Data Table -->
-                    <div class="table-card glass-card">
+                    <div class="table-card">
                         <div class="table-header-info">
                             <span id="projects-count-info">Showing projects...</span>
                             <div class="sort-controls">
@@ -360,8 +498,8 @@
                                         <th>Sector</th>
                                         <th>Physical Progress</th>
                                         <th>Approved / Revised Cost</th>
-                                        <th>Delay Months</th>
-                                        <th>Risk Badge</th>
+                                        <th>Delay</th>
+                                        <th>Risk</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -386,223 +524,217 @@
                     </div>
                 </section>
 
-                <!-- 3. PROJECT DEEP-DIVE VIEW -->
+                <!-- ==========================================================
+                     3. PROJECT DEEP-DIVE DOSSIER VIEW
+                     ========================================================== -->
                 <section class="portal-view d-none" id="view-project-detail">
-                    <div class="detail-top-nav">
+                    <div class="section-title-row">
                         <button class="btn btn-outline btn-sm" onclick="Portal.showView('projects')">
                             <i data-lucide="arrow-left"></i>
                             <span>Back to Project Catalog</span>
                         </button>
-                        <div class="detail-actions">
+                        <div style="display:flex; gap:0.65rem;" class="dossier-actions-bar">
                             <button class="btn btn-outline btn-sm" id="btn-open-proj-sim" onclick="Portal.openProjectSim()">
                                 <i data-lucide="sliders"></i>
                                 <span>Simulate "What-If" Scenario</span>
                             </button>
-                            <button class="btn btn-primary btn-sm" onclick="window.print()">
+                            <button class="btn btn-primary btn-sm" onclick="Portal.printProjectDossier()">
                                 <i data-lucide="printer"></i>
                                 <span>Print Dossier</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Project Identity Banner -->
-                    <div class="project-identity-card glass-card">
-                        <div class="pic-header">
-                            <div class="pic-code-tag" id="detail-code">#000000</div>
-                            <div class="pic-status-pill" id="detail-status">Status: Ongoing</div>
-                        </div>
-                        <h2 class="pic-title" id="detail-title">Project Name Loading...</h2>
-                        <div class="pic-meta-grid">
-                            <div class="meta-col">
-                                <span class="meta-label">Implementing Agency</span>
-                                <span class="meta-val" id="detail-agency">-</span>
+                    <!-- Official Government Dossier Print Letterhead (Active during window.print()) -->
+                    <div class="dossier-print-header">
+                        <div class="dossier-print-header-top">
+                            <div>
+                                <div class="print-emblem-text">GOVERNMENT OF INDIA • MINISTRY OF STATISTICS & PROGRAMME IMPLEMENTATION</div>
+                                <div class="print-dept-text">Infrastructure and Project Monitoring Division (IPMD) • PAIMANA AI Intelligence System</div>
                             </div>
-                            <div class="meta-col">
-                                <span class="meta-label">Administrative Ministry</span>
-                                <span class="meta-val" id="detail-ministry">-</span>
-                            </div>
-                            <div class="meta-col">
-                                <span class="meta-label">Sector & Domain</span>
-                                <span class="meta-val" id="detail-sector">-</span>
-                            </div>
-                            <div class="meta-col">
-                                <span class="meta-label">State / Location</span>
-                                <span class="meta-val" id="detail-state">-</span>
+                            <div class="print-meta-box">
+                                <div><strong>OFFICIAL INFRASTRUCTURE DOSSIER</strong></div>
+                                <div>Ref: MOSPI/IPMD/AI/<span id="print-doc-ref">2026-X</span></div>
+                                <div>Generated: <span id="print-doc-date">11-Sep-2026</span></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Progress Visualizer Bars Grid (Section 33) -->
-                    <div class="progress-bars-card glass-card">
-                        <h4 class="card-subtitle"><i data-lucide="activity"></i> Execution & Financial Work Progress</h4>
-                        <div class="progress-grid-cols">
-                            <div class="prog-col">
-                                <div class="prog-label-row">
+                    <!-- Project Identity Banner -->
+                    <div class="card" style="background:var(--bg-surface); border:1px solid var(--border-card); border-radius:var(--radius-lg); padding:1.5rem; margin-bottom:1.5rem;">
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.75rem;">
+                            <span class="mono-code" id="detail-code">#000000</span>
+                            <span class="role-pill role-policymaker" id="detail-status">Status: Ongoing</span>
+                        </div>
+                        <h2 id="detail-title" style="margin-bottom:1rem;">Project Name Loading...</h2>
+                        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:1rem;">
+                            <div>
+                                <span style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Implementing Agency</span>
+                                <div id="detail-agency" style="font-weight:600;">-</div>
+                            </div>
+                            <div>
+                                <span style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Administrative Ministry</span>
+                                <div id="detail-ministry" style="font-weight:600;">-</div>
+                            </div>
+                            <div>
+                                <span style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Sector & Domain</span>
+                                <div id="detail-sector" style="font-weight:600;">-</div>
+                            </div>
+                            <div>
+                                <span style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">State / Location</span>
+                                <div id="detail-state" style="font-weight:600;">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Visualizer Bars -->
+                    <div class="card" style="background:var(--bg-surface); border:1px solid var(--border-card); border-radius:var(--radius-lg); padding:1.5rem; margin-bottom:1.5rem;">
+                        <h4 style="margin-bottom:1rem;"><i data-lucide="activity"></i> Execution & Financial Work Progress</h4>
+                        <div class="health-bars-grid">
+                            <div class="health-item">
+                                <div class="health-item-header">
                                     <span>Physical Ground Progress</span>
                                     <strong id="detail-phys-prog">0.0%</strong>
                                 </div>
-                                <div class="progress-track">
-                                    <div class="progress-fill fill-blue" id="detail-phys-bar" style="width: 0%"></div>
+                                <div class="health-track">
+                                    <div class="health-fill" id="detail-phys-bar" style="width:0%; background:var(--brand-accent);"></div>
                                 </div>
                             </div>
-
-                            <div class="prog-col">
-                                <div class="prog-label-row">
+                            <div class="health-item">
+                                <div class="health-item-header">
                                     <span>Financial Fund Utilization</span>
                                     <strong id="detail-fin-prog">0.0%</strong>
                                 </div>
-                                <div class="progress-track">
-                                    <div class="progress-fill fill-purple" id="detail-fin-bar" style="width: 0%"></div>
+                                <div class="health-track">
+                                    <div class="health-fill" id="detail-fin-bar" style="width:0%; background:var(--brand-violet);"></div>
                                 </div>
                             </div>
-
-                            <div class="prog-col">
-                                <div class="prog-label-row">
-                                    <span>Progress Gap (Financial vs Ground)</span>
+                            <div class="health-item">
+                                <div class="health-item-header">
+                                    <span>Progress Gap (Spend vs Physical)</span>
                                     <strong id="detail-gap-prog">0.0%</strong>
                                 </div>
-                                <div class="progress-track">
-                                    <div class="progress-fill fill-amber" id="detail-gap-bar" style="width: 0%"></div>
+                                <div class="health-track">
+                                    <div class="health-fill" id="detail-gap-bar" style="width:0%; background:var(--risk-med);"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Risk Panel & AI Predictions Grid (Section 34 & 35) -->
-                    <div class="intelligence-grid">
-                        <!-- Risk Panel -->
-                        <div class="intel-card glass-card risk-panel-card" id="detail-risk-card">
-                            <div class="intel-card-header">
-                                <span class="intel-tag">MULTI-MODEL ML CLASSIFICATION</span>
-                                <h4>Overall Implementation Risk</h4>
+                    <!-- Risk Panel & AI Predictions Grid -->
+                    <div class="charts-grid">
+                        <div class="chart-card" id="detail-risk-card">
+                            <div class="chart-header">
+                                <h4><i data-lucide="shield-alert"></i> Implementation Risk Evaluation</h4>
+                                <span class="role-pill" id="detail-risk-level">CALCULATING</span>
                             </div>
-
-                            <div class="risk-score-display">
-                                <div class="risk-score-circle" id="detail-risk-score-circle">
-                                    <span class="risk-score-num" id="detail-risk-score">--</span>
-                                    <span class="risk-score-max">/100</span>
-                                </div>
-                                <div class="risk-level-badge-box">
-                                    <span class="risk-badge badge-lg" id="detail-risk-level">CALCULATING</span>
-                                    <span class="risk-desc-text" id="detail-risk-desc">Evaluating feature vectors...</span>
-                                </div>
+                            <div style="display:flex; align-items:baseline; gap:0.5rem; margin-bottom:1rem;">
+                                <span style="font-family:var(--font-heading); font-size:2.4rem; font-weight:800;" id="detail-risk-score">--</span>
+                                <span style="color:var(--text-muted); font-size:1rem;">/ 100 Risk Index</span>
                             </div>
-
-                            <div class="risk-metrics-subgrid">
-                                <div class="submetric-box">
-                                    <span class="sm-label">Delay Probability</span>
-                                    <span class="sm-val text-warning" id="detail-delay-prob">--%</span>
-                                </div>
-                                <div class="submetric-box">
-                                    <span class="sm-label">Cost Escalation Risk</span>
-                                    <span class="sm-val text-danger" id="detail-cost-risk">--%</span>
-                                </div>
-                                <div class="submetric-box">
-                                    <span class="sm-label">Schedule Deviation</span>
-                                    <span class="sm-val" id="detail-sched-dev">-- mo</span>
-                                </div>
-                            </div>
-
-                            <div class="risk-rationale-box">
-                                <i data-lucide="info"></i>
-                                <span id="detail-risk-rationale">Assessing risk rationale from longitudinal trends...</span>
-                            </div>
-                        </div>
-
-                        <!-- AI Forecast & Predictions -->
-                        <div class="intel-card glass-card forecast-card">
-                            <div class="intel-card-header">
-                                <span class="intel-tag">PREDICTIVE INTELLIGENCE</span>
-                                <h4>Ahead-of-Time AI Forecast</h4>
-                            </div>
-
-                            <div class="forecast-stats-row">
-                                <div class="forecast-box">
-                                    <span class="fc-label">Predicted Timeline Slippage</span>
-                                    <div class="fc-val text-warning" id="detail-pred-delay">0.0 mo</div>
-                                    <span class="fc-sub" id="detail-pred-delay-days">(~0 calendar days)</span>
-                                </div>
-
-                                <div class="forecast-box">
-                                    <span class="fc-label">Projected Final Cost</span>
-                                    <div class="fc-val text-purple" id="detail-pred-cost">₹0.0 Cr</div>
-                                    <span class="fc-sub" id="detail-pred-overrun-pct">(Estimated +0% overrun)</span>
-                                </div>
-                            </div>
-
-                            <!-- Anomaly Alert Flag -->
-                            <div class="anomaly-flag-box d-none" id="detail-anomaly-box">
-                                <i data-lucide="alert-triangle"></i>
+                            <p id="detail-risk-desc" style="font-size:0.85rem; margin-bottom:1rem;">Evaluating multi-model feature vectors...</p>
+                            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:0.75rem; border-top:1px solid var(--border-subtle); padding-top:1rem;">
                                 <div>
-                                    <strong>Critical Work / Financial Anomaly Detected</strong>
-                                    <p id="detail-anomaly-desc">Expenditure velocity drastically outpaces physical milestone completion.</p>
+                                    <span style="font-size:0.72rem; color:var(--text-muted);">Delay Probability</span>
+                                    <div style="font-weight:700; color:var(--risk-med);" id="detail-delay-prob">--%</div>
+                                </div>
+                                <div>
+                                    <span style="font-size:0.72rem; color:var(--text-muted);">Cost Overrun Risk</span>
+                                    <div style="font-weight:700; color:var(--risk-high);" id="detail-cost-risk">--%</div>
+                                </div>
+                                <div>
+                                    <span style="font-size:0.72rem; color:var(--text-muted);">Schedule Deviation</span>
+                                    <div style="font-weight:700;" id="detail-sched-dev">-- mo</div>
                                 </div>
                             </div>
+                            <div style="margin-top:1rem; padding:0.75rem; background:var(--bg-surface-secondary); border-radius:var(--radius-md); font-size:0.8rem;" id="detail-risk-rationale">
+                                Assessing risk rationale...
+                            </div>
+                        </div>
 
-                            <!-- Longitudinal History Chart -->
-                            <div class="history-chart-wrap">
-                                <span class="history-chart-title">4-Month Progress Trajectory (Apr–Jul 2026)</span>
-                                <div class="history-chart-canvas">
-                                    <canvas id="chart-project-history"></canvas>
+                        <!-- Forecast & History Chart -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h4><i data-lucide="calendar"></i> 4-Month Progress Trajectory</h4>
+                                <span class="chart-sub">Apr–Jul 2026</span>
+                            </div>
+                            <div style="display:flex; gap:1.5rem; margin-bottom:1rem;">
+                                <div>
+                                    <span style="font-size:0.72rem; color:var(--text-muted);">Predicted Timeline Slippage</span>
+                                    <div style="font-size:1.15rem; font-weight:700; color:var(--risk-med);" id="detail-pred-delay">0.0 mo</div>
+                                    <span style="font-size:0.72rem; color:var(--text-muted);" id="detail-pred-delay-days">(~0 days)</span>
                                 </div>
+                                <div>
+                                    <span style="font-size:0.72rem; color:var(--text-muted);">Projected Final Outlay</span>
+                                    <div style="font-size:1.15rem; font-weight:700; color:var(--brand-violet);" id="detail-pred-cost">₹0.0 Cr</div>
+                                    <span style="font-size:0.72rem; color:var(--text-muted);" id="detail-pred-overrun-pct">(+0% overrun)</span>
+                                </div>
+                            </div>
+                            <div style="height:180px;">
+                                <canvas id="chart-project-history"></canvas>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Explainable AI (XAI) & Prescriptive Recommendations Grid (Section 36 & 37) -->
-                    <div class="xai-recs-grid">
-                        <!-- Explainable AI Drivers -->
-                        <div class="intel-card glass-card">
-                            <div class="intel-card-header">
-                                <span class="intel-tag">EXPLAINABLE AI (XAI)</span>
-                                <h4>Key Risk Drivers (SHAP Attribution)</h4>
+                    <!-- Explainable AI (XAI) & Prescriptive Recommendations Grid -->
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h4><i data-lucide="cpu"></i> Key Risk Drivers (SHAP Attribution)</h4>
                             </div>
-                            <p class="xai-subtitle">Why is this project classified under this risk profile?</p>
-
-                            <div class="xai-factors-list" id="detail-xai-factors">
+                            <div class="shap-factors-list" id="detail-xai-factors">
                                 <!-- Injected via JS -->
                             </div>
                         </div>
 
-                        <!-- AI Prescriptive Recommendations -->
-                        <div class="intel-card glass-card">
-                            <div class="intel-card-header">
-                                <span class="intel-tag">DECISION-SUPPORT ENGINE</span>
-                                <h4>Prescriptive AI Recommendations</h4>
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h4><i data-lucide="check-square"></i> Prescriptive AI Recommendations</h4>
                             </div>
-                            <p class="xai-subtitle">Advisory interventions suggested for authorized officials:</p>
-
-                            <div class="recs-list" id="detail-recs-list">
+                            <div class="recs-box" id="detail-recs-list">
                                 <!-- Injected via JS -->
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Official Government Dossier Print Footer -->
+                    <div class="dossier-print-footer">
+                        <div>
+                            <div style="font-weight:700;">Infrastructure and Project Monitoring Division (IPMD) • MoSPI</div>
+                            <div>Automated Risk Diagnostics grounded on MoSPI Longitudinal Flash Panel (Apr–Jul 2026)</div>
+                            <div style="margin-top:2pt;">Generated by Officer: <span id="print-officer-name">Authorized Official</span></div>
+                        </div>
+                        <div class="print-seal-box">
+                            OFFICIAL AUDIT RECORD<br>
+                            <span style="font-family:monospace; font-size:7pt;">DIGITALLY VERIFIED — IPMD</span>
                         </div>
                     </div>
                 </section>
 
-                <!-- 4. EARLY WARNING SYSTEM / ALERTS VIEW -->
+                <!-- ==========================================================
+                     4. EARLY WARNING SYSTEM / ALERTS VIEW
+                     ========================================================== -->
                 <section class="portal-view d-none" id="view-alerts">
-                    <div class="page-header">
-                        <div class="ph-left">
+                    <div class="section-title-row">
+                        <div class="st-left">
                             <h2>Early Warning & Risk Alert Radar</h2>
                             <p>Automated anomaly triggers, milestone slippage alerts, and expenditure red-flags.</p>
                         </div>
-                        <div class="ph-right">
-                            <div class="filter-inline">
-                                <select id="alert-filter-cat" class="form-select form-select-sm" onchange="Portal.loadAlerts()">
-                                    <option value="ALL">All Alert Categories</option>
-                                    <option value="ANOMALY">Anomalies</option>
-                                    <option value="COST_AND_DELAY">Cost & Delay Dual Risk</option>
-                                    <option value="DELAY_RISK">Delay Slippage</option>
-                                    <option value="COST_RISK">Cost Overrun</option>
-                                    <option value="HIGH_RISK">High Risk Milestones</option>
-                                </select>
-                                <select id="alert-filter-prio" class="form-select form-select-sm" onchange="Portal.loadAlerts()">
-                                    <option value="ALL">All Priorities</option>
-                                    <option value="CRITICAL">Critical Priority</option>
-                                    <option value="HIGH">High Priority</option>
-                                    <option value="MEDIUM">Medium Priority</option>
-                                </select>
-                            </div>
+                        <div class="st-right" style="display:flex; gap:0.65rem;">
+                            <select id="alert-filter-cat" class="form-select form-select-sm" onchange="Portal.loadAlerts()">
+                                <option value="ALL">All Alert Categories</option>
+                                <option value="ANOMALY">Anomalies</option>
+                                <option value="COST_AND_DELAY">Cost & Delay Dual Risk</option>
+                                <option value="DELAY_RISK">Delay Slippage</option>
+                                <option value="COST_RISK">Cost Overrun</option>
+                                <option value="HIGH_RISK">High Risk Milestones</option>
+                            </select>
+                            <select id="alert-filter-prio" class="form-select form-select-sm" onchange="Portal.loadAlerts()">
+                                <option value="ALL">All Priorities</option>
+                                <option value="CRITICAL">Critical Priority</option>
+                                <option value="HIGH">High Priority</option>
+                                <option value="MEDIUM">Medium Priority</option>
+                            </select>
                         </div>
                     </div>
 
@@ -611,28 +743,30 @@
                     </div>
                 </section>
 
-                <!-- 5. ANALYTICS VIEW -->
+                <!-- ==========================================================
+                     5. ANALYTICS VIEW
+                     ========================================================== -->
                 <section class="portal-view d-none" id="view-analytics">
-                    <div class="page-header">
-                        <div class="ph-left">
+                    <div class="section-title-row">
+                        <div class="st-left">
                             <h2>National Infrastructure Cross-Analytics</h2>
                             <p>Comparative intelligence across Sectors, Administrative Ministries, States, and Agencies.</p>
                         </div>
                     </div>
 
-                    <div class="analytics-tabs-row">
-                        <button class="tab-btn active" onclick="Portal.setAnalyticsTab('sectors', this)">Sectors</button>
-                        <button class="tab-btn" onclick="Portal.setAnalyticsTab('ministries', this)">Ministries</button>
-                        <button class="tab-btn" onclick="Portal.setAnalyticsTab('states', this)">States</button>
-                        <button class="tab-btn" onclick="Portal.setAnalyticsTab('agencies', this)">Implementing Agencies</button>
+                    <div class="chart-time-pills" style="margin-bottom:1.25rem;">
+                        <button class="chart-pill-btn active" onclick="Portal.setAnalyticsTab('sectors', this)">Sectors</button>
+                        <button class="chart-pill-btn" onclick="Portal.setAnalyticsTab('ministries', this)">Ministries</button>
+                        <button class="chart-pill-btn" onclick="Portal.setAnalyticsTab('states', this)">States</button>
+                        <button class="chart-pill-btn" onclick="Portal.setAnalyticsTab('agencies', this)">Implementing Agencies</button>
                     </div>
 
                     <!-- Analytics Chart -->
-                    <div class="chart-card glass-card mt-3" style="height:260px;padding:16px 20px 12px;">
+                    <div class="chart-card" style="height:280px; margin-bottom:1.5rem;">
                         <canvas id="chart-analytics-bar"></canvas>
                     </div>
 
-                    <div class="table-card glass-card mt-3">
+                    <div class="table-card">
                         <div class="table-responsive">
                             <table class="data-table" id="analytics-table">
                                 <thead id="analytics-thead"></thead>
@@ -642,32 +776,34 @@
                     </div>
                 </section>
 
-                <!-- 6. ADMIN PORTAL COCKPIT (Only visible to ADMIN role) -->
+                <!-- ==========================================================
+                     6. ADMIN PORTAL COCKPIT (Only visible to ADMIN role)
+                     ========================================================== -->
                 <section class="portal-view d-none" id="view-admin-dashboard">
-                    <div class="page-header">
-                        <div class="ph-left">
+                    <div class="section-title-row">
+                        <div class="st-left">
                             <h2>System Administration Console</h2>
                             <p>Global platform governance, user authorizations, agency directory, and security audit logs.</p>
                         </div>
                     </div>
 
                     <!-- Admin Sub-navigation -->
-                    <div class="admin-nav-tabs">
-                        <button class="admin-tab active" onclick="Portal.setAdminSubView('users')"><i data-lucide="users"></i> User Accounts</button>
-                        <button class="admin-tab" onclick="Portal.setAdminSubView('agencies')"><i data-lucide="building"></i> Agencies Directory</button>
-                        <button class="admin-tab" onclick="Portal.setAdminSubView('audit-logs')"><i data-lucide="clipboard-list"></i> Security Audit Trail</button>
-                        <button class="admin-tab" onclick="Portal.setAdminSubView('settings')"><i data-lucide="sliders"></i> Risk Threshold Settings</button>
+                    <div class="chart-time-pills" style="margin-bottom:1.25rem;">
+                        <button class="chart-pill-btn active" onclick="Portal.setAdminSubView('users')"><i data-lucide="users"></i> User Accounts</button>
+                        <button class="chart-pill-btn" onclick="Portal.setAdminSubView('agencies')"><i data-lucide="building"></i> Agencies Directory</button>
+                        <button class="chart-pill-btn" onclick="Portal.setAdminSubView('audit-logs')"><i data-lucide="clipboard-list"></i> Security Audit Trail</button>
+                        <button class="chart-pill-btn" onclick="Portal.setAdminSubView('settings')"><i data-lucide="sliders"></i> Risk Threshold Settings</button>
                     </div>
 
                     <!-- Admin Users Section -->
                     <div class="admin-subview" id="admin-sub-users">
-                        <div class="admin-action-bar">
-                            <input type="text" id="admin-user-search" class="form-input" placeholder="Search users by name, email, or role..." oninput="Portal.loadAdminUsers()">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:1rem; gap:1rem;">
+                            <input type="text" id="admin-user-search" class="form-input" style="max-width:380px;" placeholder="Search users by name, email, or role..." oninput="Portal.loadAdminUsers()">
                             <button class="btn btn-primary btn-sm" onclick="Portal.openCreateUserModal()">
                                 <i data-lucide="user-plus"></i> Create New User
                             </button>
                         </div>
-                        <div class="table-card glass-card">
+                        <div class="table-card">
                             <div class="table-responsive">
                                 <table class="data-table">
                                     <thead>
@@ -690,7 +826,7 @@
 
                     <!-- Admin Agencies Section -->
                     <div class="admin-subview d-none" id="admin-sub-agencies">
-                        <div class="table-card glass-card">
+                        <div class="table-card">
                             <div class="table-responsive">
                                 <table class="data-table">
                                     <thead>
@@ -712,8 +848,8 @@
 
                     <!-- Admin Audit Logs Section -->
                     <div class="admin-subview d-none" id="admin-sub-audit-logs">
-                        <div class="admin-action-bar">
-                            <select id="audit-action-filter" class="form-select form-select-sm" onchange="Portal.loadAdminAuditLogs()">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                            <select id="audit-action-filter" class="form-select form-select-sm" style="width:200px;" onchange="Portal.loadAdminAuditLogs()">
                                 <option value="ALL">All Actions</option>
                                 <option value="LOGIN">LOGIN</option>
                                 <option value="LOGIN_FAILED">LOGIN_FAILED</option>
@@ -724,7 +860,7 @@
                             </select>
                             <span class="text-muted" id="audit-logs-total">Total recorded events: --</span>
                         </div>
-                        <div class="table-card glass-card">
+                        <div class="table-card">
                             <div class="table-responsive">
                                 <table class="data-table">
                                     <thead>
@@ -747,76 +883,73 @@
 
                     <!-- Admin Settings Section -->
                     <div class="admin-subview d-none" id="admin-sub-settings">
-                        <div class="settings-card glass-card">
-                            <h3><i data-lucide="sliders"></i> Platform Risk Thresholds & Model Parameters</h3>
-                            <form id="form-system-settings" class="settings-form" onsubmit="Portal.saveAdminSettings(event)">
+                        <div class="chart-card" style="max-width:600px;">
+                            <h3 style="margin-bottom:1rem;"><i data-lucide="sliders"></i> Platform Risk Thresholds & Model Parameters</h3>
+                            <form id="form-system-settings" onsubmit="Portal.saveAdminSettings(event)" style="display:flex; flex-direction:column; gap:1.25rem;">
                                 <div class="form-group">
                                     <label>High Risk Cutoff Threshold (Score 0-100)</label>
                                     <input type="number" id="setting-high-risk" class="form-input" min="50" max="95">
-                                    <span class="form-help">Projects with composite score exceeding this are assigned HIGH risk.</span>
+                                    <small style="color:var(--text-muted)">Projects with composite score exceeding this are assigned HIGH risk.</small>
                                 </div>
                                 <div class="form-group">
                                     <label>Schedule Delay Alarm (Months)</label>
                                     <input type="number" id="setting-delay-alarm" class="form-input" min="1" max="36">
-                                    <span class="form-help">Schedule slippage exceeding this triggers an early warning alert.</span>
+                                    <small style="color:var(--text-muted)">Schedule slippage exceeding this triggers an early warning alert.</small>
                                 </div>
                                 <div class="form-group">
                                     <label>Cost Overrun Notice (%)</label>
                                     <input type="number" id="setting-cost-alarm" class="form-input" min="5" max="50">
-                                    <span class="form-help">Capital cost escalation percentage triggering critical notice.</span>
+                                    <small style="color:var(--text-muted)">Capital cost escalation percentage triggering critical notice.</small>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Save Platform Settings</button>
+                                <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Save Platform Settings</button>
                             </form>
                         </div>
                     </div>
                 </section>
 
-                <!-- 7. PROFILE & ACCOUNT VIEW -->
+                <!-- ==========================================================
+                     7. PROFILE & ACCOUNT VIEW
+                     ========================================================== -->
                 <section class="portal-view d-none" id="view-profile">
-                    <div class="page-header">
-                        <div class="ph-left">
+                    <div class="section-title-row">
+                        <div class="st-left">
                             <h2>User Profile & Security</h2>
                             <p>Manage your official credentials, session security, and institutional roles.</p>
                         </div>
                     </div>
 
-                    <div class="profile-grid">
-                        <div class="profile-card glass-card">
-                            <div class="profile-header-badge">
-                                <div class="profile-avatar" id="profile-avatar">GO</div>
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem;">
+                                <div class="user-avatar" id="profile-avatar" style="width:50px; height:50px; font-size:1.1rem;">GO</div>
                                 <div>
                                     <h3 id="profile-name">Official Name</h3>
-                                    <span class="role-pill" id="profile-role-badge">POLICYMAKER</span>
+                                    <span class="role-pill role-policymaker" id="profile-role-badge">POLICYMAKER</span>
                                 </div>
                             </div>
-
-                            <div class="profile-meta-list">
-                                <div class="pml-item">
-                                    <span class="pml-label">Official Email</span>
-                                    <span class="pml-val" id="profile-email">email@paimana.gov.in</span>
-                                </div>
-                                <div class="pml-item">
-                                    <span class="pml-label">Username</span>
-                                    <span class="pml-val" id="profile-username">username</span>
-                                </div>
-                                <div class="pml-item">
-                                    <span class="pml-label">Assigned Organization</span>
-                                    <span class="pml-val" id="profile-org">Ministry of Statistics</span>
-                                </div>
-                                <div class="pml-item">
-                                    <span class="pml-label">Division / Department</span>
-                                    <span class="pml-val" id="profile-dept">IPMD Headquarters</span>
-                                </div>
-                                <div class="pml-item">
-                                    <span class="pml-label">Account Status</span>
-                                    <span class="badge badge-success">ACTIVE & AUDITED</span>
-                                </div>
+                            <div style="display:flex; flex-direction:column; gap:0.75rem; font-size:0.86rem;">
+                                <div><span style="color:var(--text-muted)">Official Email:</span> <strong id="profile-email">email@paimana.gov.in</strong></div>
+                                <div><span style="color:var(--text-muted)">Username:</span> <strong id="profile-username">username</strong></div>
+                                <div><span style="color:var(--text-muted)">Assigned Organization:</span> <strong id="profile-org">Ministry of Statistics</strong></div>
+                                <div><span style="color:var(--text-muted)">Department / Cell:</span> <strong id="profile-dept">IPMD Headquarters</strong></div>
+                                <div><span style="color:var(--text-muted)">Account Status:</span> <span class="role-pill role-planning">ACTIVE & AUDITED</span></div>
                             </div>
                         </div>
 
-                        <div class="profile-card glass-card">
-                            <h3>Change Account Password</h3>
-                            <form id="form-change-pwd" onsubmit="Portal.changePassword(event)" class="mt-3">
+                        <div class="chart-card">
+                            <h3 style="margin-bottom:1rem;">Interface & Appearance Preferences</h3>
+                            <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.25rem;">Personalize your portal viewing mode. Your selection is automatically saved for your session.</p>
+                            <div style="display:flex; gap:0.75rem;">
+                                <button type="button" class="btn btn-outline" onclick="ThemeManager.setTheme('light')">
+                                    <i data-lucide="sun"></i> Light Theme (Default)
+                                </button>
+                                <button type="button" class="btn btn-outline" onclick="ThemeManager.setTheme('dark')">
+                                    <i data-lucide="moon"></i> Dark Theme
+                                </button>
+                            </div>
+
+                            <h3 style="margin-top:2rem; margin-bottom:1rem;">Change Password</h3>
+                            <form id="form-change-pwd" onsubmit="Portal.changePassword(event)" style="display:flex; flex-direction:column; gap:0.85rem;">
                                 <div class="form-group">
                                     <label for="old-pwd">Current Password</label>
                                     <input type="password" id="old-pwd" class="form-input" required>
@@ -825,20 +958,22 @@
                                     <label for="new-pwd">New Password</label>
                                     <input type="password" id="new-pwd" class="form-input" minlength="6" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Update Password</button>
+                                <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Update Password</button>
                             </form>
                         </div>
                     </div>
                 </section>
 
-                <!-- 8. ACCESS DENIED (403) VIEW -->
+                <!-- ==========================================================
+                     8. ACCESS DENIED (403) VIEW
+                     ========================================================== -->
                 <section class="portal-view d-none" id="view-403">
-                    <div class="error-panel glass-card text-center py-5">
-                        <div class="error-icon text-danger"><i data-lucide="shield-x"></i></div>
+                    <div class="chart-card text-center py-5" style="max-width:560px; margin:3rem auto;">
+                        <div style="font-size:3rem; color:var(--risk-high); margin-bottom:1rem;"><i data-lucide="shield-x"></i></div>
                         <h2>403 — Access Denied</h2>
-                        <p class="error-msg">You do not have administrative authorization or cross-agency clearance to access this resource.</p>
-                        <p class="text-muted">This unauthorized access attempt has been recorded in the security audit trail.</p>
-                        <button class="btn btn-primary mt-3" onclick="Portal.showView('dashboard')">
+                        <p style="margin-bottom:1rem;">You do not have administrative authorization or cross-agency clearance to access this resource.</p>
+                        <small style="color:var(--text-muted); display:block; margin-bottom:1.5rem;">This unauthorized access attempt has been logged in the platform security audit trail.</small>
+                        <button class="btn btn-primary" onclick="Portal.showView('dashboard')">
                             <i data-lucide="home"></i> Return to Authorized Dashboard
                         </button>
                     </div>
@@ -847,9 +982,128 @@
         </div>
     </div>
 
-    <!-- MODAL: WHAT-IF SIMULATION LAB -->
+    <!-- ======================================================================
+         SLIDE-OVER PROJECT INTELLIGENCE DRAWER
+         ====================================================================== -->
+    <div class="drawer-backdrop" id="project-drawer-backdrop" onclick="Portal.closeProjectDrawer()"></div>
+    <aside class="project-drawer" id="project-drawer" aria-label="Project Intelligence Panel">
+        <div class="drawer-header">
+            <div class="drawer-title-box">
+                <div class="drawer-tag-row">
+                    <span class="mono-code" id="drawer-proj-code">#000000</span>
+                    <span class="risk-badge risk-high" id="drawer-risk-badge">HIGH RISK</span>
+                    <span class="delay-pill delay-high" id="drawer-delay-pill">+18 mo</span>
+                </div>
+                <h3 class="drawer-title" id="drawer-proj-name">Project Name</h3>
+                <span class="drawer-sub" id="drawer-proj-sub">Sector • State • Agency</span>
+            </div>
+            <button class="drawer-close-btn" onclick="Portal.closeProjectDrawer()" aria-label="Close Drawer">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <div class="drawer-body">
+            <!-- Health Score Bars -->
+            <div class="drawer-section">
+                <span class="drawer-section-title"><i data-lucide="activity"></i> Project Health Dimensions</span>
+                <div class="health-bars-grid">
+                    <div class="health-item">
+                        <div class="health-item-header">
+                            <span>Project Health</span>
+                            <strong id="drawer-health-proj">78%</strong>
+                        </div>
+                        <div class="health-track">
+                            <div class="health-fill" id="drawer-bar-proj" style="width:78%; background:var(--brand-accent);"></div>
+                        </div>
+                    </div>
+                    <div class="health-item">
+                        <div class="health-item-header">
+                            <span>Financial Health</span>
+                            <strong id="drawer-health-fin">68%</strong>
+                        </div>
+                        <div class="health-track">
+                            <div class="health-fill" id="drawer-bar-fin" style="width:68%; background:var(--brand-violet);"></div>
+                        </div>
+                    </div>
+                    <div class="health-item">
+                        <div class="health-item-header">
+                            <span>Schedule Health</span>
+                            <strong id="drawer-health-sched">42%</strong>
+                        </div>
+                        <div class="health-track">
+                            <div class="health-fill" id="drawer-bar-sched" style="width:42%; background:var(--risk-med);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Risk Assessment -->
+            <div class="drawer-section">
+                <span class="drawer-section-title"><i data-lucide="cpu"></i> AI Risk Assessment</span>
+                <div style="background:var(--bg-surface-secondary); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:1rem; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Risk Probability</span>
+                        <div style="font-family:var(--font-heading); font-size:1.75rem; font-weight:800; color:var(--risk-high);" id="drawer-risk-prob">78.4%</div>
+                    </div>
+                    <div>
+                        <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Risk Classification</span>
+                        <div style="font-size:1.1rem; font-weight:700;" id="drawer-risk-clf">HIGH RISK</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Explainable AI (SHAP Drivers) -->
+            <div class="drawer-section">
+                <span class="drawer-section-title"><i data-lucide="bar-chart-2"></i> Why is this project high risk?</span>
+                <div class="shap-factors-list" id="drawer-shap-factors">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- Recommended Actions -->
+            <div class="drawer-section">
+                <span class="drawer-section-title"><i data-lucide="check-circle-2"></i> Recommended Actions</span>
+                <div class="recs-box" id="drawer-recs-box">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </div>
+
+        <div class="drawer-footer">
+            <button class="btn btn-outline btn-sm" id="drawer-btn-sim" onclick="Portal.openDrawerSim()">
+                <i data-lucide="sliders"></i> Simulate Scenario
+            </button>
+            <button class="btn btn-primary btn-sm" id="drawer-btn-dossier" onclick="Portal.openDrawerDossier()">
+                Open Full Project <i data-lucide="arrow-right"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ======================================================================
+         GLOBAL COMMAND PALETTE MODAL (CTRL + K)
+         ====================================================================== -->
+    <div class="cmd-palette-backdrop" id="cmd-palette-backdrop" onclick="Portal.closeCommandPalette()">
+        <div class="cmd-palette-modal" onclick="event.stopPropagation()">
+            <div class="cmd-search-input-box">
+                <i data-lucide="search"></i>
+                <input type="text" id="cmd-search-input" class="cmd-search-input" placeholder="Search projects, agencies, sectors, views... (ESC to close)" autocomplete="off">
+                <kbd class="kbd-shortcut">ESC</kbd>
+            </div>
+            <div class="cmd-results-list" id="cmd-results-list">
+                <!-- Injected via JS -->
+            </div>
+            <div class="cmd-palette-footer">
+                <span>Navigate with <kbd class="kbd-shortcut">↑</kbd> <kbd class="kbd-shortcut">↓</kbd></span>
+                <span>Select with <kbd class="kbd-shortcut">Enter</kbd></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================================
+         MODAL: WHAT-IF SCENARIO SIMULATOR LAB
+         ====================================================================== -->
     <div class="modal-overlay d-none" id="modal-sim">
-        <div class="modal-dialog glass-panel">
+        <div class="modal-dialog">
             <div class="modal-header">
                 <div class="modal-title">
                     <i data-lucide="sliders"></i>
@@ -878,7 +1132,7 @@
                             <input type="range" id="sim-prog" min="0" max="100" step="1" value="45" oninput="Portal.runSimulation()">
                         </div>
                         <div class="sim-group">
-                            <label>Progress Rate Velocity (% / month): <strong id="val-sim-pv">1.2</strong>%</label>
+                            <label>Progress Velocity (% / month): <strong id="val-sim-pv">1.2</strong>%</label>
                             <input type="range" id="sim-pv" min="0" max="10" step="0.1" value="1.2" oninput="Portal.runSimulation()">
                         </div>
                         <div class="sim-group">
@@ -887,10 +1141,10 @@
                         </div>
                     </div>
 
-                    <div class="sim-results glass-card">
+                    <div class="sim-results">
                         <h5>Simulated AI Risk Engine Output</h5>
                         <div class="sim-risk-badge-box">
-                            <span class="risk-badge" id="sim-res-risk-level">HIGH RISK</span>
+                            <span class="risk-badge risk-high" id="sim-res-risk-level">HIGH RISK</span>
                             <span class="sim-score-num" id="sim-res-risk-score">78 / 100</span>
                         </div>
                         <div class="sim-stats-list">
@@ -900,11 +1154,11 @@
                             </div>
                             <div class="sim-stat-row">
                                 <span>Projected Final Outlay:</span>
-                                <strong class="text-purple" id="sim-res-cost">₹1,340 Cr</strong>
+                                <strong style="color:var(--brand-violet)" id="sim-res-cost">₹1,340 Cr</strong>
                             </div>
                             <div class="sim-stat-row">
                                 <span>Anomaly Status:</span>
-                                <span id="sim-res-anom" class="badge badge-danger">DIVERGENCE FLAGGED</span>
+                                <span id="sim-res-anom" class="risk-badge risk-high">DIVERGENCE FLAGGED</span>
                             </div>
                         </div>
                     </div>
@@ -913,9 +1167,11 @@
         </div>
     </div>
 
-    <!-- MODAL: ML BENCHMARKS -->
+    <!-- ======================================================================
+         MODAL: ML BENCHMARKS
+         ====================================================================== -->
     <div class="modal-overlay d-none" id="modal-benchmarks">
-        <div class="modal-dialog glass-panel">
+        <div class="modal-dialog">
             <div class="modal-header">
                 <div class="modal-title">
                     <i data-lucide="bar-chart-2"></i>
@@ -924,10 +1180,10 @@
                 <button class="modal-close" onclick="Portal.closeBenchmarkModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <p class="modal-desc">Validated on 1,737 infrastructure projects with stratified train/test partitioning.</p>
+                <p class="modal-desc">Validated on 1,737 central sector infrastructure projects with stratified train/test partitioning.</p>
                 
                 <h5>1. Risk Classification Models</h5>
-                <div class="table-responsive mb-4">
+                <div class="table-responsive">
                     <table class="data-table">
                         <thead>
                             <tr>
@@ -943,7 +1199,7 @@
                     </table>
                 </div>
 
-                <h5>2. Schedule Delay Regression Models</h5>
+                <h5 style="margin-top:1.5rem;">2. Schedule Delay Regression Models</h5>
                 <div class="table-responsive">
                     <table class="data-table">
                         <thead>
@@ -961,15 +1217,17 @@
         </div>
     </div>
 
-    <!-- MODAL: CREATE USER (ADMIN ONLY) -->
+    <!-- ======================================================================
+         MODAL: CREATE USER (ADMIN ONLY)
+         ====================================================================== -->
     <div class="modal-overlay d-none" id="modal-create-user">
-        <div class="modal-dialog glass-panel modal-sm">
+        <div class="modal-dialog modal-sm">
             <div class="modal-header">
                 <div class="modal-title"><i data-lucide="user-plus"></i> Create Official User Account</div>
                 <button class="modal-close" onclick="Portal.closeCreateUserModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="form-create-user" onsubmit="Portal.submitCreateUser(event)">
+                <form id="form-create-user" onsubmit="Portal.submitCreateUser(event)" style="display:flex; flex-direction:column; gap:1rem;">
                     <div class="form-group">
                         <label>Full Name</label>
                         <input type="text" id="new-user-fullname" class="form-input" required>
@@ -1000,16 +1258,22 @@
                         <label>Assigned Organization</label>
                         <input type="text" id="new-user-org" class="form-input" placeholder="e.g. National Highways Authority of India [NHAI]" required>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block mt-3">Create User</button>
+                    <button type="submit" class="btn btn-primary btn-block mt-2">Create User</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <script src="/static/js/auth.js"></script>
-    <script src="/static/js/portal.js"></script>
+    <!-- Scripts -->
+    <script src="/static/js/auth.js?v=2.4.0"></script>
+    <script src="/static/js/portal.js?v=2.4.0"></script>
     <script>
-        lucide.createIcons();
+        // Initialize Lucide icons on document ready
+        document.addEventListener("DOMContentLoaded", () => {
+            if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                window.lucide.createIcons();
+            }
+        });
     </script>
 </body>
 </html>

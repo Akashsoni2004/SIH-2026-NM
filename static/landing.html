@@ -1,49 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAIMANA AI — Integrated Infrastructure Project Monitoring & Risk Prediction</title>
-    <meta name="description" content="AI-powered central infrastructure project monitoring, schedule delay prediction, cost-overrun forecasting, and early warning system for MoSPI IPMD.">
+    <title>PAIMANA AI — AI-Powered Infrastructure Intelligence Platform | Government of India</title>
+    <meta name="description" content="AI-Powered Predictive Monitoring for India's Central Infrastructure Projects. Transforming governance from retrospective reporting into proactive risk intelligence.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css?v=2.4.0">
+    <!-- Theme Manager -->
+    <script src="/static/js/theme.js?v=2.4.0"></script>
 </head>
 <body class="landing-body">
     <!-- Public Header -->
     <header class="public-nav">
         <div class="nav-container">
-            <a href="/" class="brand-link">
-                <div class="emblem-circle">
-                    <i data-lucide="shield-alert" class="brand-icon"></i>
+            <a href="/" class="sidebar-brand" style="text-decoration: none;">
+                <div class="emblem-wrapper">
+                    <div class="emblem-circle">
+                        <svg class="emblem-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
                 </div>
-                <div class="brand-text">
-                    <span class="brand-dept">GOVERNMENT OF INDIA • MoSPI / IPMD</span>
-                    <span class="brand-title">PAIMANA AI</span>
+                <div class="brand-title-wrap">
+                    <div class="brand-main-title">PAIMANA <span class="ai-chip">AI</span></div>
+                    <span class="brand-sub-title">GOVERNMENT OF INDIA • MoSPI / IPMD</span>
                 </div>
             </a>
 
             <nav class="public-menu">
                 <a href="#home" class="menu-item active">Home</a>
-                <a href="#about" class="menu-item">About</a>
-                <a href="#features" class="menu-item">Features</a>
-                <a href="#how-it-works" class="menu-item">How It Works</a>
-                <a href="#impact" class="menu-item">Impact</a>
-                <a href="#contact" class="menu-item">Contact</a>
+                <a href="#capabilities" class="menu-item">AI Capabilities</a>
+                <a href="#architecture" class="menu-item">Model Architecture</a>
+                <a href="#impact" class="menu-item">National Impact</a>
             </nav>
 
-            <div class="nav-actions">
-                <a href="/login" class="btn btn-primary">
+            <div style="display:flex; align-items:center; gap:0.75rem;">
+                <button class="topbar-icon-btn theme-toggle-btn" id="landing-theme-toggle" aria-label="Toggle Theme" title="Toggle Light / Dark Mode">
+                    <i data-lucide="moon" class="theme-icon"></i>
+                </button>
+                <a href="/login" class="btn btn-outline btn-sm">
                     <i data-lucide="log-in"></i>
-                    <span>User Login</span>
+                    <span>Official Login</span>
                 </a>
-                <a href="/admin/login" class="btn btn-outline admin-nav-btn">
-                    <i data-lucide="lock"></i>
-                    <span>Admin Portal</span>
+                <a href="/login" class="btn btn-primary btn-sm">
+                    <i data-lucide="shield-check"></i>
+                    <span>Access Portal</span>
                 </a>
             </div>
         </div>
@@ -51,317 +60,141 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero-section">
-        <div class="hero-overlay"></div>
         <div class="hero-container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="pulse-dot"></span>
-                    <span>Smart India Hackathon 2026 • Team Neural Minds</span>
-                </div>
-                <h1 class="hero-headline">
-                    AI-Powered Predictive Monitoring for <span class="gradient-text">India's Infrastructure</span>
-                </h1>
-                <p class="hero-subheading">
-                    <strong>Monitor. Predict. Prevent. Act.</strong>
-                </p>
-                <p class="hero-desc">
-                    Transforming infrastructure governance from retrospective manual reporting into predictive early warnings, multi-model risk classification, and actionable decision-support for central sector projects.
-                </p>
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                <span>National Infrastructure Risk Radar • Central Sector Projects</span>
+            </div>
+            
+            <h1 class="hero-headline">
+                AI-Powered Predictive Monitoring for <span class="gradient-text">India's Infrastructure</span>
+            </h1>
+            
+            <p class="hero-subheading">
+                Predict Risks • Enable Early Action • Build a Safer, Stronger Tomorrow
+            </p>
+            
+            <p class="hero-desc">
+                Transforming infrastructure governance from retrospective reporting into predictive risk intelligence, multi-model schedule slippage forecasting, and actionable decision-support for central sector projects costing ₹150 Crore & above.
+            </p>
 
-                <div class="hero-ctas">
-                    <a href="/login" class="btn btn-cta-primary">
-                        <i data-lucide="arrow-right-circle"></i>
-                        <span>Access Government Portal</span>
-                    </a>
-                    <a href="#features" class="btn btn-cta-secondary">
-                        <i data-lucide="sparkles"></i>
-                        <span>Explore AI Capabilities</span>
-                    </a>
-                </div>
+            <div class="hero-ctas">
+                <a href="/login" class="btn btn-primary btn-lg">
+                    <i data-lucide="shield"></i>
+                    <span>Access Government Portal</span>
+                </a>
+                <a href="#capabilities" class="btn btn-outline btn-lg">
+                    <i data-lucide="sparkles"></i>
+                    <span>Explore AI Capabilities</span>
+                </a>
+            </div>
 
-                <div class="hero-highlights">
-                    <div class="highlight-item">
-                        <span class="highlight-num" id="hero-projects-count">1,737</span>
-                        <span class="highlight-label">Central Projects Monitored</span>
-                    </div>
-                    <div class="highlight-divider"></div>
-                    <div class="highlight-item">
-                        <span class="highlight-num" id="hero-capital-val">₹36.54L Cr</span>
-                        <span class="highlight-label">Total Capital Evaluated</span>
-                    </div>
-                    <div class="highlight-divider"></div>
-                    <div class="highlight-item">
-                        <span class="highlight-num">90.52%</span>
-                        <span class="highlight-label">XGBoost Risk Accuracy</span>
-                    </div>
-                    <div class="highlight-divider"></div>
-                    <div class="highlight-item">
-                        <span class="highlight-num">&lt; 25ms</span>
-                        <span class="highlight-label">What-If Simulation Latency</span>
-                    </div>
+            <!-- Animated KPI Highlights -->
+            <div class="hero-highlights">
+                <div class="highlight-item">
+                    <span class="highlight-num" id="hero-projects-count">1,737</span>
+                    <span class="highlight-label">Central Projects Monitored</span>
+                </div>
+                <div class="highlight-divider"></div>
+                <div class="highlight-item">
+                    <span class="highlight-num" id="hero-capital-val">₹36.54L Cr</span>
+                    <span class="highlight-label">Capital Evaluated</span>
+                </div>
+                <div class="highlight-divider"></div>
+                <div class="highlight-item">
+                    <span class="highlight-num" style="color:var(--risk-low);">90.52%</span>
+                    <span class="highlight-label">Risk Model Accuracy</span>
+                </div>
+                <div class="highlight-divider"></div>
+                <div class="highlight-item">
+                    <span class="highlight-num" style="color:var(--brand-accent);">&lt;25ms</span>
+                    <span class="highlight-label">Simulation Latency</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="section-block about-section">
-        <div class="section-container">
-            <div class="section-header text-center">
-                <span class="section-tag">NATIONAL CONTEXT</span>
-                <h2 class="section-title">Bridging the Gap Between Project Data and Actionable Intelligence</h2>
-                <p class="section-subtitle">
-                    Central infrastructure projects carry thousands of crores in public investment. Manual review of massive monthly reports inevitably creates blind spots where delays compound before intervention occurs.
-                </p>
+    <!-- 6 Visual Feature Cards (Requirement 44) -->
+    <section id="capabilities" style="padding: 4.5rem 2rem; max-width: 1200px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <span class="role-pill role-policymaker" style="margin-bottom: 0.5rem;">Core Intelligence Modules</span>
+            <h2 style="font-size: 2rem; margin-top: 0.35rem;">Enterprise Infrastructure Intelligence</h2>
+            <p style="max-width: 600px; margin: 0.5rem auto 0;">Purpose-built multi-model machine learning architecture for senior policymakers, project directors, and administrative ministries.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+            <!-- Predict -->
+            <div class="kpi-card" style="padding: 1.75rem;">
+                <div class="kpi-icon-wrap icon-blue" style="width: 44px; height: 44px; margin-bottom: 1.25rem;">
+                    <i data-lucide="target" style="width: 24px; height: 24px;"></i>
+                </div>
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Predict</h3>
+                <p style="font-size: 0.88rem; line-height: 1.5;">Stratified multi-model risk classification utilizing gradient boosted decision trees to forecast cost escalation and schedule delays months ahead.</p>
             </div>
 
-            <div class="about-grid">
-                <div class="about-card glass-panel">
-                    <div class="about-icon-wrap red-accent">
-                        <i data-lucide="file-x"></i>
-                    </div>
-                    <h3>The Traditional Challenge</h3>
-                    <ul class="about-list">
-                        <li><strong>Data Overload:</strong> Hundreds of pages of static Flash Reports generated each month.</li>
-                        <li><strong>Retrospective Analysis:</strong> Delays only identified after deadlines have already passed.</li>
-                        <li><strong>Siloed Monitoring:</strong> Disconnected spreadsheets across 15+ ministries and 40+ agencies.</li>
-                        <li><strong>Hidden Cost Drift:</strong> Gradual expenditure escalation without ground physical progress.</li>
-                    </ul>
+            <!-- Detect -->
+            <div class="kpi-card" style="padding: 1.75rem;">
+                <div class="kpi-icon-wrap icon-red" style="width: 44px; height: 44px; margin-bottom: 1.25rem;">
+                    <i data-lucide="alert-octagon" style="width: 24px; height: 24px;"></i>
                 </div>
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Detect</h3>
+                <p style="font-size: 0.88rem; line-height: 1.5;">Isolation Forest anomaly detection automatically triggers early warnings when capital expenditure velocity drastically decouples from physical milestones.</p>
+            </div>
 
-                <div class="about-card glass-panel highlight-border">
-                    <div class="about-icon-wrap blue-accent">
-                        <i data-lucide="shield-check"></i>
-                    </div>
-                    <h3>The PAIMANA AI Solution</h3>
-                    <ul class="about-list">
-                        <li><strong>Longitudinal Intelligence:</strong> 4-month velocity tracking ($\Delta$Progress/mo & $\Delta$Spend/mo).</li>
-                        <li><strong>Predictive Forecasts:</strong> Ahead-of-time delay slippage & final cost estimation.</li>
-                        <li><strong>Explainable AI (XAI):</strong> Transparent SHAP driver attribution for every project risk score.</li>
-                        <li><strong>Human-in-the-Loop:</strong> Actionable advisory recommendations empowering authorized officials.</li>
-                    </ul>
+            <!-- Analyze -->
+            <div class="kpi-card" style="padding: 1.75rem;">
+                <div class="kpi-icon-wrap icon-purple" style="width: 44px; height: 44px; margin-bottom: 1.25rem;">
+                    <i data-lucide="bar-chart-3" style="width: 24px; height: 24px;"></i>
                 </div>
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Analyze</h3>
+                <p style="font-size: 0.88rem; line-height: 1.5;">Longitudinal multi-period panel data analysis across 15 administrative ministries and 22 core infrastructure sectors for macro capital visibility.</p>
+            </div>
+
+            <!-- Recommend -->
+            <div class="kpi-card" style="padding: 1.75rem;">
+                <div class="kpi-icon-wrap icon-green" style="width: 44px; height: 44px; margin-bottom: 1.25rem;">
+                    <i data-lucide="check-circle-2" style="width: 24px; height: 24px;"></i>
+                </div>
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Recommend</h3>
+                <p style="font-size: 0.88rem; line-height: 1.5;">Actionable decision-support recommendations grounded in explainable AI (SHAP attributions), providing government officials with concrete next steps.</p>
+            </div>
+
+            <!-- Monitor -->
+            <div class="kpi-card" style="padding: 1.75rem;">
+                <div class="kpi-icon-wrap icon-blue" style="width: 44px; height: 44px; margin-bottom: 1.25rem;">
+                    <i data-lucide="activity" style="width: 24px; height: 24px;"></i>
+                </div>
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Monitor</h3>
+                <p style="font-size: 0.88rem; line-height: 1.5;">Real-time health indices tracking project health, financial health, and schedule health with progress velocity tracking and automated threshold triggers.</p>
+            </div>
+
+            <!-- Simulate -->
+            <div class="kpi-card" style="padding: 1.75rem;">
+                <div class="kpi-icon-wrap icon-amber" style="width: 44px; height: 44px; margin-bottom: 1.25rem;">
+                    <i data-lucide="sliders" style="width: 24px; height: 24px;"></i>
+                </div>
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Simulate</h3>
+                <p style="font-size: 0.88rem; line-height: 1.5;">Sub-25ms "What-If" scenario simulation engine allowing officials to model budget changes, progress accelerations, or delay slippage in real-time.</p>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="section-block features-section">
-        <div class="section-container">
-            <div class="section-header text-center">
-                <span class="section-tag">CORE CAPABILITIES</span>
-                <h2 class="section-title">Comprehensive Multi-Model Monitoring Suite</h2>
-                <p class="section-subtitle">
-                    Eight purpose-built modules designed for the Ministry of Statistics and Programme Implementation.
-                </p>
+    <!-- Public Footer -->
+    <footer style="background: var(--bg-surface); border-top: 1px solid var(--border-subtle); padding: 2.5rem 2rem; text-align: center; color: var(--text-muted); font-size: 0.82rem;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--text-primary);">
+                <span>PAIMANA AI</span> • <span>Ministry of Statistics and Programme Implementation (MoSPI)</span>
             </div>
-
-            <div class="features-grid">
-                <div class="feature-card glass-panel">
-                    <div class="feature-icon"><i data-lucide="layout-dashboard"></i></div>
-                    <h4>Performance Dashboard</h4>
-                    <p>Real-time macro portfolio telemetry tracking 1,737 infrastructure projects with ministry and sector aggregations.</p>
-                </div>
-
-                <div class="feature-card glass-panel">
-                    <div class="feature-icon"><i data-lucide="shield-alert"></i></div>
-                    <h4>Risk Prediction Engine</h4>
-                    <p>Stratified XGBoost classifier achieving 90.52% accuracy categorizing projects into HIGH, MEDIUM, and LOW risk.</p>
-                </div>
-
-                <div class="feature-card glass-panel">
-                    <div class="feature-icon"><i data-lucide="calendar-clock"></i></div>
-                    <h4>Schedule Delay Regressor</h4>
-                    <p>High-precision ML regressor predicting timeline slippages in months and calendar days with a 4.28-month MAE.</p>
-                </div>
-
-                <div class="feature-card glass-panel">
-                    <div class="feature-icon"><i data-lucide="trending-up"></i></div>
-                    <h4>Cost Overrun Forecaster</h4>
-                    <p>Anticipates price escalation percentages and forecasts final projected capital requirements upon completion.</p>
-                </div>
-
-                <div class="feature-card glass-panel">
-                    <div class="feature-icon"><i data-lucide="alert-triangle"></i></div>
-                    <h4>Early Warning Alerts</h4>
-                    <p>Isolation Forest anomaly engine detecting critical imbalances (e.g. 85% budget spent with 30% physical progress).</p>
-                </div>
-
-                <div class="feature-card glass-panel">
-                    <div class="feature-icon"><i data-lucide="lightbulb"></i></div>
-                    <h4>AI Decision Recommendations</h4>
-                    <p>Prescriptive advisory measures providing administrative steps, milestone recovery plans, and audit advisories.</p>
-                </div>
-
-                <div class="feature-card glass-panel">
-                    <div class="feature-icon"><i data-lucide="activity"></i></div>
-                    <h4>Longitudinal Velocity Analysis</h4>
-                    <p>Calculates true ground execution rates and fund burn velocities across consecutive monthly Flash Report cycles.</p>
-                </div>
-
-                <div class="feature-card glass-panel">
-                    <div class="feature-icon"><i data-lucide="network"></i></div>
-                    <h4>Multi-Sector Governance</h4>
-                    <p>Role-Based Access Control (RBAC) with organization-level data isolation for NHAI, AAI, Railways, and Central Ministries.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="section-block workflow-section">
-        <div class="section-container">
-            <div class="section-header text-center">
-                <span class="section-tag">GOVERNANCE PIPELINE</span>
-                <h2 class="section-title">How PAIMANA AI Powers Human Decision-Making</h2>
-                <p class="section-subtitle">
-                    An end-to-end intelligence loop transforming raw data into authorized executive decisions.
-                </p>
-            </div>
-
-            <div class="pipeline-flow">
-                <div class="step-card">
-                    <div class="step-num">01</div>
-                    <div class="step-title">Project Data</div>
-                    <div class="step-desc">MoSPI Flash Reports & OCMS feeds ingested monthly</div>
-                </div>
-                <div class="step-connector"><i data-lucide="chevron-right"></i></div>
-                <div class="step-card">
-                    <div class="step-num">02</div>
-                    <div class="step-title">Feature Velocity</div>
-                    <div class="step-desc">Longitudinal tracking of spend vs physical work rates</div>
-                </div>
-                <div class="step-connector"><i data-lucide="chevron-right"></i></div>
-                <div class="step-card">
-                    <div class="step-num">03</div>
-                    <div class="step-title">Multi-Model ML</div>
-                    <div class="step-desc">XGBoost risk classification & timeline regressions</div>
-                </div>
-                <div class="step-connector"><i data-lucide="chevron-right"></i></div>
-                <div class="step-card">
-                    <div class="step-num">04</div>
-                    <div class="step-title">Early Warning</div>
-                    <div class="step-desc">Automated alerts, SHAP drivers & mitigation actions</div>
-                </div>
-                <div class="step-connector"><i data-lucide="chevron-right"></i></div>
-                <div class="step-card highlight-step">
-                    <div class="step-num">05</div>
-                    <div class="step-title">Official Decision</div>
-                    <div class="step-desc">Authorized government officials review & take final action</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Impact Metrics Section -->
-    <section id="impact" class="section-block impact-section">
-        <div class="section-container">
-            <div class="section-header text-center">
-                <span class="section-tag">MEASURABLE IMPACT</span>
-                <h2 class="section-title">Portfolio Surveillance Metrics</h2>
-                <p class="section-subtitle">
-                    Grounded in real-world central infrastructure data spanning April through July 2026.
-                </p>
-            </div>
-
-            <div class="impact-stats-grid">
-                <div class="impact-stat-card glass-panel">
-                    <div class="impact-num" id="stat-monitored-proj">1,737</div>
-                    <div class="impact-label">Infrastructure Projects Monitored</div>
-                    <div class="impact-sub">Costing ₹150 Crore and above</div>
-                </div>
-
-                <div class="impact-stat-card glass-panel red-border">
-                    <div class="impact-num text-danger" id="stat-high-risk-proj">1,021</div>
-                    <div class="impact-label">High-Risk Projects Identified</div>
-                    <div class="impact-sub">Flagged for immediate milestone review</div>
-                </div>
-
-                <div class="impact-stat-card glass-panel amber-border">
-                    <div class="impact-num text-warning" id="stat-delayed-proj">825</div>
-                    <div class="impact-label">Schedule Delays Detected</div>
-                    <div class="impact-sub">Ranging from 1 to 144 months</div>
-                </div>
-
-                <div class="impact-stat-card glass-panel purple-border">
-                    <div class="impact-num text-info" id="stat-anomalies-detected">87</div>
-                    <div class="impact-label">Financial Anomalies Isolated</div>
-                    <div class="impact-sub">Critical physical-to-spend divergence</div>
-                </div>
-            </div>
-
-            <div class="login-banner glass-panel">
-                <div class="banner-content">
-                    <h3>Ready to inspect portfolio intelligence?</h3>
-                    <p>Authorized personnel from MoSPI, NITI Aayog, Central Ministries, and Project Agencies can log in directly.</p>
-                </div>
-                <div class="banner-actions">
-                    <a href="/login" class="btn btn-primary btn-lg">
-                        <i data-lucide="shield-check"></i>
-                        <span>Enter Government Portal</span>
-                    </a>
-                    <a href="/admin/login" class="btn btn-outline btn-lg">
-                        <i data-lucide="settings"></i>
-                        <span>System Administration</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact" class="public-footer">
-        <div class="footer-container">
-            <div class="footer-left">
-                <div class="footer-brand">
-                    <i data-lucide="shield-alert"></i>
-                    <span>PAIMANA AI</span>
-                </div>
-                <p class="footer-desc">
-                    Integrated Infrastructure Project Monitoring & Risk Prediction Platform.<br>
-                    Developed for Smart India Hackathon (SIH 2026) by <strong>Team Neural Minds</strong>.
-                </p>
-                <div class="footer-meta">
-                    <span>Problem Statement: SIH1608 • IPMD / MoSPI</span>
-                </div>
-            </div>
-
-            <div class="footer-links">
-                <div class="link-col">
-                    <h5>Platform</h5>
-                    <a href="#about">About System</a>
-                    <a href="#features">AI Features</a>
-                    <a href="#how-it-works">Workflow</a>
-                    <a href="#impact">Live Impact</a>
-                </div>
-                <div class="link-col">
-                    <h5>Portals</h5>
-                    <a href="/login">Officer Sign In</a>
-                    <a href="/admin/login">Admin Console</a>
-                    <a href="/docs" target="_blank">FastAPI Docs</a>
-                    <a href="/redoc" target="_blank">ReDoc API</a>
-                </div>
-                <div class="link-col">
-                    <h5>Governance</h5>
-                    <span>Ministry of Statistics</span>
-                    <span>IPMD Division</span>
-                    <span>Gati Shakti Alignment</span>
-                    <span>Decision-Support System</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div class="section-container">
-                <p>© 2026 Government of India • Ministry of Statistics and Programme Implementation (MoSPI). All rights reserved.</p>
-                <p class="footer-disclaimer">Disclaimer: AI predictions represent statistical risk estimations based on historical Flash Report parameters to assist human decision-making. Final administrative authority remains with designated government officials.</p>
-            </div>
+            <p>Infrastructure and Project Monitoring Division (IPMD) • Central Sector Projects Monitoring System</p>
+            <p style="font-size: 0.75rem;">Smart India Hackathon 2026 • Team Neural Minds • Built for National Governance Excellence</p>
         </div>
     </footer>
 
-    <script src="/static/js/landing.js"></script>
+    <script src="/static/js/landing.js?v=2.4.0"></script>
     <script>
-        lucide.createIcons();
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+            window.lucide.createIcons();
+        }
     </script>
 </body>
 </html>
