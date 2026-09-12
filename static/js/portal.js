@@ -15,6 +15,7 @@ const Portal = (function() {
     let drawerProject = null;
     let charts = {};
     let dashboardStatsCache = null;
+    let currentRiskTrendRange = "6M";
     let stateAnalyticsCache = [];
     let commandPaletteIndex = -1;
     let notificationsCache = [];
@@ -289,9 +290,11 @@ const Portal = (function() {
             document.getElementById("stat-avg-delay").textContent = data.average_delay_months;
             animateNumber("stat-overrun", data.overrun_projects_count);
 
+            dashboardStatsCache = data;
+
             // Render Charts
             renderRiskPieChart(data.high_risk_count, data.medium_risk_count, data.low_risk_count, data.total_projects);
-            renderRiskTrendLineChart();
+            renderRiskTrendLineChart(currentRiskTrendRange);
             loadSectorChart();
             loadIndiaRiskMap();
             loadPriorityProjectsTable();
@@ -500,28 +503,87 @@ const Portal = (function() {
         });
     }
 
-    function renderRiskTrendLineChart(range = "6M") {
+    async function renderRiskTrendLineChart(range = currentRiskTrendRange) {
+        currentRiskTrendRange = range;
         const canvas = document.getElementById("chart-risk-trend");
         if (!canvas) return;
-        if (charts.riskTrend) charts.riskTrend.destroy();
+
+        // Synchronize pill button active state
+        document.querySelectorAll(".chart-time-pills .chart-pill-btn").forEach(b => {
+            if (b.textContent.trim().toUpperCase() === range.toUpperCase()) {
+                b.classList.add("active");
+            } else {
+                b.classList.remove("active");
+            }
+        });
 
         const theme = getChartThemeColors();
-        const labels = ["Feb 2026", "Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026"];
         
+        let trajectoryData = null;
+        try {
+            const res = await Auth.fetchWithAuth(`/api/analytics/trajectory?range=${encodeURIComponent(range)}`);
+            if (res.ok) {
+                trajectoryData = await res.json();
+            }
+        } catch (e) {
+            console.warn("Could not fetch remote trajectory, using fallback generator:", e);
+        }
+
+        // Local fallback calculation if offline or loading
+        if (!trajectoryData || !trajectoryData.labels) {
+            const onTrack = (dashboardStatsCache && dashboardStatsCache.low_risk_count) || 492;
+            const delayed = (dashboardStatsCache && dashboardStatsCache.delayed_projects_count) || 1089;
+            const highRisk = (dashboardStatsCache && dashboardStatsCache.high_risk_count) || 1015;
+
+            if (range === "1M") {
+                trajectoryData = {
+                    labels: ["03 Jul 2026", "10 Jul 2026", "17 Jul 2026", "24 Jul 2026", "31 Jul 2026"],
+                    on_track: [Math.round(onTrack * 0.978), Math.round(onTrack * 0.984), Math.round(onTrack * 0.990), Math.round(onTrack * 0.996), onTrack],
+                    delayed: [Math.round(delayed * 0.983), Math.round(delayed * 0.987), Math.round(delayed * 0.992), Math.round(delayed * 0.996), delayed],
+                    high_risk: [Math.round(highRisk * 0.991), Math.round(highRisk * 0.993), Math.round(highRisk * 0.996), Math.round(highRisk * 0.998), highRisk]
+                };
+            } else if (range === "3M") {
+                trajectoryData = {
+                    labels: ["May 2026", "Jun 2026", "Jul 2026"],
+                    on_track: [Math.round(onTrack * 0.945), Math.round(onTrack * 0.976), onTrack],
+                    delayed: [Math.round(delayed * 0.964), Math.round(delayed * 0.983), delayed],
+                    high_risk: [Math.round(highRisk * 0.965), Math.round(highRisk * 0.990), highRisk]
+                };
+            } else if (range === "1Y") {
+                trajectoryData = {
+                    labels: ["Aug 2025", "Sep 2025", "Oct 2025", "Nov 2025", "Dec 2025", "Jan 2026", "Feb 2026", "Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026"],
+                    on_track: [Math.round(onTrack * 0.691), Math.round(onTrack * 0.722), Math.round(onTrack * 0.752), Math.round(onTrack * 0.783), Math.round(onTrack * 0.809), Math.round(onTrack * 0.833), Math.round(onTrack * 0.854), Math.round(onTrack * 0.884), Math.round(onTrack * 0.915), Math.round(onTrack * 0.945), Math.round(onTrack * 0.976), onTrack],
+                    delayed: [Math.round(delayed * 0.744), Math.round(delayed * 0.776), Math.round(delayed * 0.803), Math.round(delayed * 0.836), Math.round(delayed * 0.859), Math.round(delayed * 0.882), Math.round(delayed * 0.900), Math.round(delayed * 0.927), Math.round(delayed * 0.950), Math.round(delayed * 0.964), Math.round(delayed * 0.983), delayed],
+                    high_risk: [Math.round(highRisk * 0.700), Math.round(highRisk * 0.734), Math.round(highRisk * 0.768), Math.round(highRisk * 0.803), Math.round(highRisk * 0.828), Math.round(highRisk * 0.855), Math.round(highRisk * 0.877), Math.round(highRisk * 0.906), Math.round(highRisk * 0.941), Math.round(highRisk * 0.965), Math.round(highRisk * 0.990), highRisk]
+                };
+            } else { // "6M"
+                trajectoryData = {
+                    labels: ["Feb 2026", "Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026"],
+                    on_track: [Math.round(onTrack * 0.854), Math.round(onTrack * 0.884), Math.round(onTrack * 0.915), Math.round(onTrack * 0.945), Math.round(onTrack * 0.976), onTrack],
+                    delayed: [Math.round(delayed * 0.900), Math.round(delayed * 0.927), Math.round(delayed * 0.950), Math.round(delayed * 0.964), Math.round(delayed * 0.983), delayed],
+                    high_risk: [Math.round(highRisk * 0.877), Math.round(highRisk * 0.906), Math.round(highRisk * 0.941), Math.round(highRisk * 0.965), Math.round(highRisk * 0.990), highRisk]
+                };
+            }
+        }
+
+        if (charts.riskTrend) {
+            charts.riskTrend.destroy();
+        }
+
         charts.riskTrend = new Chart(canvas, {
             type: "line",
             data: {
-                labels: labels,
+                labels: trajectoryData.labels,
                 datasets: [
                     {
                         label: "On Track Projects",
-                        data: [420, 435, 450, 465, 480, 492],
+                        data: trajectoryData.on_track,
                         borderColor: "#059669",
                         backgroundColor: "rgba(5, 150, 105, 0.08)",
                         tension: 0.35,
                         fill: false,
-                        pointRadius: 3.5,
-                        pointHoverRadius: 6.5,
+                        pointRadius: range === "1Y" ? 2.8 : 4.0,
+                        pointHoverRadius: 7.0,
                         pointHoverBorderWidth: 3,
                         pointHoverBorderColor: "#ffffff",
                         pointHoverBackgroundColor: "#10b981",
@@ -529,13 +591,13 @@ const Portal = (function() {
                     },
                     {
                         label: "Delayed Projects",
-                        data: [980, 1010, 1035, 1050, 1070, 1089],
+                        data: trajectoryData.delayed,
                         borderColor: "#d97706",
                         backgroundColor: "rgba(217, 119, 6, 0.08)",
                         tension: 0.35,
                         fill: false,
-                        pointRadius: 3.5,
-                        pointHoverRadius: 6.5,
+                        pointRadius: range === "1Y" ? 2.8 : 4.0,
+                        pointHoverRadius: 7.0,
                         pointHoverBorderWidth: 3,
                         pointHoverBorderColor: "#ffffff",
                         pointHoverBackgroundColor: "#f59e0b",
@@ -543,13 +605,13 @@ const Portal = (function() {
                     },
                     {
                         label: "High Risk Projects",
-                        data: [890, 920, 955, 980, 1005, 1015],
+                        data: trajectoryData.high_risk,
                         borderColor: "#dc2626",
                         backgroundColor: "rgba(220, 38, 38, 0.08)",
                         tension: 0.35,
                         fill: false,
-                        pointRadius: 3.5,
-                        pointHoverRadius: 6.5,
+                        pointRadius: range === "1Y" ? 2.8 : 4.0,
+                        pointHoverRadius: 7.0,
                         pointHoverBorderWidth: 3,
                         pointHoverBorderColor: "#ffffff",
                         pointHoverBackgroundColor: "#ef4444",
@@ -561,7 +623,7 @@ const Portal = (function() {
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: {
-                    duration: 650,
+                    duration: 550,
                     easing: "easeOutQuart"
                 },
                 interaction: {
@@ -570,7 +632,11 @@ const Portal = (function() {
                 },
                 scales: {
                     x: {
-                        ticks: { color: theme.text, font: { family: "Inter", size: 11 } },
+                        ticks: {
+                            color: theme.text,
+                            font: { family: "Inter", size: range === "1Y" ? 10 : 11 },
+                            maxRotation: range === "1Y" ? 40 : 0
+                        },
                         grid: { display: false }
                     },
                     y: {
@@ -762,7 +828,7 @@ const Portal = (function() {
             );
         }
         if (charts.riskTrend) {
-            renderRiskTrendLineChart();
+            renderRiskTrendLineChart(currentRiskTrendRange);
         }
         if (charts.sectorBar) {
             loadSectorChart();

@@ -39,7 +39,8 @@ document.addEventListener("DOMContentLoaded", async function() {
     }
 
     // 2. Smooth Scroll for Navigation
-    document.querySelectorAll(".public-menu a").forEach(anchor => {
+    const menuLinks = document.querySelectorAll(".public-menu a");
+    menuLinks.forEach(anchor => {
         anchor.addEventListener("click", function(e) {
             const href = this.getAttribute("href");
             if (href.startsWith("#")) {
@@ -48,9 +49,38 @@ document.addEventListener("DOMContentLoaded", async function() {
                 if (target) {
                     target.scrollIntoView({ behavior: "smooth", block: "start" });
                 }
-                document.querySelectorAll(".public-menu a").forEach(a => a.classList.remove("active"));
+                menuLinks.forEach(a => a.classList.remove("active"));
                 this.classList.add("active");
             }
         });
     });
+
+    // 3. Scroll Spy for Navigation Active State
+    const sections = document.querySelectorAll("section[id]");
+    if ("IntersectionObserver" in window && sections.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute("id");
+                    menuLinks.forEach(link => {
+                        if (link.getAttribute("href") === `#${id}`) {
+                            link.classList.add("active");
+                        } else {
+                            link.classList.remove("active");
+                        }
+                    });
+                }
+            });
+        }, {
+            threshold: 0.35,
+            rootMargin: "-80px 0px -50% 0px"
+        });
+
+        sections.forEach(sec => observer.observe(sec));
+    }
+
+    // 4. Initialize Lucide Icons
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+    }
 });

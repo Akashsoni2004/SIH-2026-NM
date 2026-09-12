@@ -2942,6 +2942,372 @@ a:hover {
     background: var(--border-subtle);
 }
 
+/* Landing Page Sections (Capabilities, Architecture, Impact) */
+.landing-section {
+    padding: 5rem 2rem;
+    position: relative;
+}
+
+.landing-container {
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3.25rem;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-top: 0.5rem;
+    color: var(--text-primary);
+}
+
+.section-subtitle {
+    max-width: 680px;
+    margin: 0.65rem auto 0;
+    color: var(--text-secondary);
+    font-size: 0.96rem;
+    line-height: 1.6;
+}
+
+/* Model Architecture Workflow Grid */
+.arch-flow-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.arch-step-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 1.75rem 1.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.arch-step-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-elevated);
+    border-color: var(--border-strong);
+}
+
+.arch-step-num {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    opacity: 0.35;
+}
+
+.arch-step-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.arch-step-card h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--text-primary);
+}
+
+.arch-step-card p {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+}
+
+.arch-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+    background: var(--brand-accent-subtle);
+    color: var(--brand-accent);
+    width: fit-content;
+}
+
+/* Architecture Details Grid */
+.arch-details-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 1.75rem;
+}
+
+.arch-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    box-shadow: var(--shadow-card);
+}
+
+.arch-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.arch-feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.arch-feature-item {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+}
+
+.arch-feature-icon {
+    color: var(--risk-low);
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+}
+
+/* Benchmark Table */
+.benchmark-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.benchmark-table th {
+    background: var(--table-header-bg);
+    color: var(--text-muted);
+    font-weight: 600;
+    text-align: left;
+    padding: 0.75rem 0.85rem;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.benchmark-table td {
+    padding: 0.85rem 0.85rem;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+}
+
+.benchmark-table tr:hover td {
+    background: var(--table-row-hover);
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-full);
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: var(--bg-surface-secondary);
+    color: var(--text-muted);
+}
+
+.status-pill.status-active {
+    background: var(--risk-low-bg);
+    color: var(--risk-low-text);
+    border: 1px solid var(--risk-low-border);
+}
+
+/* National Impact Section */
+.impact-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+}
+
+.impact-stat-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 1.85rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.impact-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-elevated);
+}
+
+.impact-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.stat-big-num {
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.1;
+    margin-bottom: 0.35rem;
+}
+
+.impact-stat-label {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.impact-stat-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+/* Strategic Pillars Grid */
+.impact-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+}
+
+.pillar-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pillar-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-elevated);
+}
+
+.pillar-icon-wrap {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.35rem;
+}
+
+.pillar-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+}
+
+.pillar-card p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.35rem;
+}
+
+.pillar-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    margin-top: auto;
+}
+
+.pillar-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.pillar-list li i {
+    width: 15px;
+    height: 15px;
+    color: var(--risk-low);
+    flex-shrink: 0;
+}
+
+/* Call to Action Banner */
+.cta-banner {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 3.25rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--govt-tricolor-subtle);
+}
+
+@media (max-width: 1024px) {
+    .arch-flow-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .arch-details-grid {
+        grid-template-columns: 1fr;
+    }
+    .impact-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .impact-pillars-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .arch-flow-grid {
+        grid-template-columns: 1fr;
+    }
+    .impact-metrics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* --------------------------------------------------------------------------
    20. AUTHENTICATION PAGES (LOGIN / ADMIN LOGIN)
    -------------------------------------------------------------------------- */
